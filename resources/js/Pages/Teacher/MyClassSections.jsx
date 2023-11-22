@@ -19,7 +19,6 @@ import TeacherLayout from "@/Layouts/TeacherLayout.jsx";
 import {
     Dialog,
     DialogContent,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,

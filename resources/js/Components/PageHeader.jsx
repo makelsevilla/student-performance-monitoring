@@ -1,5 +1,3 @@
-import { Button } from "@/Components/ui/button.jsx";
-
 export default function PageHeader({ heading, text, children }) {
     return (
         <div className="flex flex-wrap items-center gap-4 p-4">
