@@ -12,7 +12,7 @@ class SectionSubject extends Model
     use HasFactory;
 
     public $timestamps = false;
-    
+
     protected $fillable = [
         'teacher_id',
         'name',
@@ -34,5 +34,10 @@ class SectionSubject extends Model
     public function quizzes(): HasMany
     {
         return $this->hasMany(SubjectQuiz::class);
+    }
+
+    public function tasks(): HasMany
+    {
+        return $this->hasMany(SubjectTask::class);
     }
 }
