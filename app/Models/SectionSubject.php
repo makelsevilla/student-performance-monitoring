@@ -11,6 +11,8 @@ class SectionSubject extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+    
     protected $fillable = [
         'teacher_id',
         'name',

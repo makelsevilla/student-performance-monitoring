@@ -11,6 +11,8 @@ class SubjectQuiz extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         "section_subject_id",
         "name",

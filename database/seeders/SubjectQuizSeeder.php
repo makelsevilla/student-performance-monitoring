@@ -12,6 +12,6 @@ class SubjectQuizSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\SubjectQuiz::factory()->count(50)->create();
+        \App\Models\SubjectQuiz::factory()->count(20)->create();
     }
 }
