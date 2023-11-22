@@ -25,6 +25,9 @@ class SectionSubjectFactory extends Factory
             'section_id' => $section->id,
             'teacher_id' => $teacher->id,
             'name' => fake()->word,
+            'quiz_weight' => fake()->numberBetween(0, 100),
+            'task_weight' => fake()->numberBetween(0, 100),
+            'exam_weight' => fake()->numberBetween(0, 100),
         ];
     }
 }

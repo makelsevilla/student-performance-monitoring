@@ -13,6 +13,9 @@ class SectionSubject extends Model
     protected $fillable = [
         'teacher_id',
         'name',
+        'quiz_weight',
+        'task_weight',
+        'exam_weight'
     ];
 
     public function section(): BelongsTo

@@ -15,6 +15,9 @@ return new class extends Migration {
             $table->foreignId("section_id")->constrained("sections")->cascadeOnDelete();
             $table->foreignId("teacher_id")->constrained("users")->nullOnDelete();
             $table->string("name");
+            $table->integer("quiz_weight")->default(0);
+            $table->integer("task_weight")->default(0);
+            $table->integer("exam_weight")->default(0);
 
             // unique constraint on section_id and name columns
             $table->unique(['section_id', 'name']);
