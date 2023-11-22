@@ -27,4 +27,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Teachers route
+Route::middleware([/*'auth', 'role:teacher'*/])->group(function () {
+    require __DIR__ . '/teacher.php';
+});
+
 require __DIR__ . '/auth.php';
