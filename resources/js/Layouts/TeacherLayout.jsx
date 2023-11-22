@@ -1,5 +1,6 @@
 import { Button } from "@/Components/ui/button.jsx";
 import { Icons } from "@/Components/Icons.jsx";
+import { Link } from "@inertiajs/react";
 
 export default function TeacherLayout({ children }) {
     return (
@@ -22,9 +23,14 @@ export default function TeacherLayout({ children }) {
                             <Button
                                 variant="ghost"
                                 className="w-full justify-start text-lg"
+                                asChild
                             >
-                                <Icons.users className="h-5 w-5" />
-                                <span className="ps-3">Class Sections</span>
+                                <Link
+                                    href={route("teacher.my-classes-sections")}
+                                >
+                                    <Icons.users className="h-5 w-5" />
+                                    <span className="ps-3">Class Sections</span>
+                                </Link>
                             </Button>
                         </li>
                         <li>

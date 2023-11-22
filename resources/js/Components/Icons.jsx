@@ -1,7 +1,17 @@
-import { Gauge, Library, LogOut, Settings, User, Users } from "lucide-react";
+import {
+    Gauge,
+    Library,
+    LogOut,
+    Menu,
+    MoreVertical,
+    Settings,
+    User,
+    Users,
+} from "lucide-react";
 
 export const Icons = {
     dashboard: Gauge,
+    moreVertical: MoreVertical,
     settings: Settings,
     logout: LogOut,
     users: Users,
