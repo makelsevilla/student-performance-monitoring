@@ -28,19 +28,18 @@ import { Label } from "@/Components/ui/label.jsx";
 import { Input } from "@/Components/ui/input.jsx";
 import InputError from "@/Components/InputError.jsx";
 
-export default function MyClassSections() {
+export default function MySections() {
     return (
         <TeacherLayout>
             <PageHeader
-                heading="My Class Sections"
-                text="Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Quae, voluptatibus."
+                heading="My Sections"
+                text="Lists of section class that you are handling."
             >
-                <CreateClassSectionModal>
+                <CreateSectionModal>
                     <Button size="sm" className="ml-auto text-xs">
                         Add Section
                     </Button>
-                </CreateClassSectionModal>
+                </CreateSectionModal>
             </PageHeader>
             <div className="mt-4">
                 <Table>
@@ -75,14 +74,14 @@ export default function MyClassSections() {
     );
 }
 
-function CreateClassSectionModal({ children }) {
+function CreateSectionModal({ children }) {
     return (
         <Dialog>
             <DialogTrigger asChild>{children}</DialogTrigger>
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle className="text-xl">
-                        Create class section
+                        Create Section
                     </DialogTitle>
                 </DialogHeader>
                 <Separator />
@@ -90,7 +89,7 @@ function CreateClassSectionModal({ children }) {
                     {/*First Row*/}
                     <div className="flex">
                         <div className="w-full space-y-1.5">
-                            <Label>Section Name</Label>
+                            <Label>Section name</Label>
                             <Input required />
                             <InputError message="This field is required" />
                         </div>

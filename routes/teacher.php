@@ -7,5 +7,5 @@ use Inertia\Inertia;
 Route::name("teacher.")->group(function () {
 
     Route::get('/dashboard', [TeacherPageController::class, "dashboard"])->name("dashboard");
-    Route::get('/my-class-sections', [TeacherPageController::class, "myClassSections"])->name("my-classes-sections");
+    Route::get('/my-sections', [TeacherPageController::class, "mySections"])->name("my-sections");
 });

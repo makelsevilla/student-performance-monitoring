@@ -25,11 +25,9 @@ export default function TeacherLayout({ children }) {
                                 className="w-full justify-start text-lg"
                                 asChild
                             >
-                                <Link
-                                    href={route("teacher.my-classes-sections")}
-                                >
+                                <Link href={route("teacher.my-sections")}>
                                     <Icons.users className="h-5 w-5" />
-                                    <span className="ps-3">Class Sections</span>
+                                    <span className="ps-3">Sections</span>
                                 </Link>
                             </Button>
                         </li>

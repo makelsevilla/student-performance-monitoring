@@ -12,8 +12,8 @@ class TeacherPageController extends Controller
         return Inertia::render('Teacher/Dashboard');
     }
 
-    public function myClassSections()
+    public function mySections()
     {
-        return Inertia::render('Teacher/MyClassSections');
+        return Inertia::render('Teacher/MySections');
     }
 }
