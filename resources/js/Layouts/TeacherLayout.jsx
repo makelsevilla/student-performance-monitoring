@@ -11,12 +11,12 @@ export default function TeacherLayout({ children }) {
 
             <div className="h-full rounded-lg border sm:grid sm:grid-cols-[256px_1fr]">
                 <aside className=" hidden rounded-l-lg bg-slate-500 p-4 text-white shadow sm:flex sm:flex-col">
-                    <div className="mb-4 space-y-4 text-center">
+                    <Link href="/" className="mb-4 space-y-4 text-center">
                         <Icons.dashboard className="mx-auto h-12 w-12" />
                         <h1 className="text-xl font-bold">
                             Student Monitoring
                         </h1>
-                    </div>
+                    </Link>
 
                     <ul className="space-y-2 font-medium">
                         <li>
