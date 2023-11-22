@@ -18,7 +18,7 @@ class StudentFactory extends Factory
     public function definition(): array
     {
         // Get a random section
-        $section = Section::inRandomOrder()->first();
+        $section = \DB::table("sections")->inRandomOrder()->first();
 
         return [
             'section_id' => $section->id,

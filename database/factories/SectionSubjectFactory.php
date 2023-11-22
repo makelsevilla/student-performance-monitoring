@@ -18,7 +18,7 @@ class SectionSubjectFactory extends Factory
      */
     public function definition(): array
     {
-        $section = Section::inRandomOrder()->first();
+        $section = \DB::table("sections")->inRandomOrder()->first();
         $teacher = User::where('role', 'teacher')->inRandomOrder()->first();
 
         return [
