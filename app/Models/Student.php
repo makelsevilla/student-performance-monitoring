@@ -12,7 +12,7 @@ class Student extends Model
     use HasFactory;
 
     public $timestamps = false;
-    
+
     protected $fillable = [
         'name',
     ];
@@ -25,5 +25,10 @@ class Student extends Model
     public function studentSubjectQuizScores(): HasMany
     {
         return $this->hasMany(StudentSubjectQuizScore::class);
+    }
+
+    public function studentSubjectTaskScores(): HasMany
+    {
+        return $this->hasMany(StudentSubjectTaskScore::class);
     }
 }

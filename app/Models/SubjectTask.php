@@ -23,4 +23,9 @@ class SubjectTask extends Model
     {
         return $this->belongsTo(SectionSubject::class);
     }
+
+    public function studentSubjectTaskScores()
+    {
+        return $this->hasMany(StudentSubjectTaskScore::class);
+    }
 }
