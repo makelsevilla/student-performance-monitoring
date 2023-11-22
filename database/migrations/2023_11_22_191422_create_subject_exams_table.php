@@ -10,10 +10,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('subject_quizzes', function (Blueprint $table) {
+        Schema::create('subject_exams', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("section_subject_id")->constrained("section_subjects")->cascadeOnDelete();
-            $table->string("name");
+            $table->foreignId('section_subject_id')->constrained()->cascadeOnDelete();
+            $table->string('name');
             $table->integer("total_score");
             $table->integer("grading_period");
 
@@ -26,6 +26,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('subject_quizzes');
+        Schema::dropIfExists('subject_exams');
     }
 };

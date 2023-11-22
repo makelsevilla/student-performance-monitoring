@@ -40,4 +40,9 @@ class SectionSubject extends Model
     {
         return $this->hasMany(SubjectTask::class);
     }
+
+    public function exams(): HasMany
+    {
+        return $this->hasMany(SubjectExam::class);
+    }
 }
