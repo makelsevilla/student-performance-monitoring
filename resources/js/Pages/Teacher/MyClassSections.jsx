@@ -16,6 +16,18 @@ import {
 } from "@/Components/ui/dropdown-menu.jsx";
 import { Icons } from "@/Components/Icons.jsx";
 import TeacherLayout from "@/Layouts/TeacherLayout.jsx";
+import {
+    Dialog,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/Components/ui/dialog.jsx";
+import { Separator } from "@/Components/ui/separator.jsx";
+import { Label } from "@/Components/ui/label.jsx";
+import { Input } from "@/Components/ui/input.jsx";
+import InputError from "@/Components/InputError.jsx";
 
 export default function MyClassSections() {
     return (
@@ -25,10 +37,11 @@ export default function MyClassSections() {
                 text="Lorem ipsum dolor sit amet consectetur adipisicing
                             elit. Quae, voluptatibus."
             >
-                {" "}
-                <Button size="sm" className="ml-auto text-xs">
-                    Add Section
-                </Button>
+                <CreateClassSectionModal>
+                    <Button size="sm" className="ml-auto text-xs">
+                        Add Section
+                    </Button>
+                </CreateClassSectionModal>
             </PageHeader>
             <div className="mt-4">
                 <Table>
@@ -60,5 +73,36 @@ export default function MyClassSections() {
                 </Table>
             </div>
         </TeacherLayout>
+    );
+}
+
+function CreateClassSectionModal({ children }) {
+    return (
+        <Dialog>
+            <DialogTrigger asChild>{children}</DialogTrigger>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle className="text-xl">
+                        Create class section
+                    </DialogTitle>
+                </DialogHeader>
+                <Separator />
+                <form>
+                    {/*First Row*/}
+                    <div className="flex">
+                        <div className="w-full space-y-1.5">
+                            <Label>Section Name</Label>
+                            <Input required />
+                            <InputError message="This field is required" />
+                        </div>
+                    </div>
+
+                    {/*Form Footer*/}
+                    <div className="mt-4 flex justify-end">
+                        <Button>Create</Button>
+                    </div>
+                </form>
+            </DialogContent>
+        </Dialog>
     );
 }
