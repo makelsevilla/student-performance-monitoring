@@ -25,6 +25,11 @@ class DatabaseSeeder extends Seeder
             SectionSubjectSeeder::class,
             StudentSeeder::class,
             SubjectQuizSeeder::class,
+            StudentSubjectQuizScoreSeeder::class,
+            SubjectTaskSeeder::class,
+            StudentSubjectTaskScoreSeeder::class,
+            SubjectExamSeeder::class,
+            StudentSubjectExamScoreSeeder::class,
         ]);
     }
 }

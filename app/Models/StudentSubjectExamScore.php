@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class StudentSubjectQuizScore extends Model
+class StudentSubjectExamScore extends Model
 {
     use HasFactory;
 
     public $timestamps = false;
-    
+
     protected $fillable = [
         "student_id",
-        "subject_quiz_id",
+        "subject_exam_id",
         "score",
     ];
 
@@ -23,8 +23,8 @@ class StudentSubjectQuizScore extends Model
         return $this->belongsTo(Student::class);
     }
 
-    public function subjectQuiz(): BelongsTo
+    public function subjectExam(): BelongsTo
     {
-        return $this->belongsTo(SubjectQuiz::class);
+        return $this->belongsTo(SubjectExam::class);
     }
 }
