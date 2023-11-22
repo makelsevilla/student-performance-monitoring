@@ -22,7 +22,7 @@ class StudentSubjectExamScoreFactory extends Factory
 
         return [
             'student_id' => $student->id,
-            'subject_quiz_id' => $subjectExam->id,
+            'subject_exam_id' => $subjectExam->id,
             'score' => fake()->numberBetween(0, $subjectExam->total_score),
         ];
     }

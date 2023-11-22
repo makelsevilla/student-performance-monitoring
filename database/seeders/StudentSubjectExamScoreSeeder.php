@@ -13,7 +13,7 @@ class StudentSubjectExamScoreSeeder extends Seeder
     public function run(): void
     {
         \App\Models\StudentSubjectExamScore::factory()
-            ->count(20)
+            ->count(10)
             ->create();
     }
 }
