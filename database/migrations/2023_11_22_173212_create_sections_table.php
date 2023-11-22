@@ -10,14 +10,14 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('sections', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string("username")->unique();
-            $table->string("role")->default("teacher")->comment("admin, teacher");
-            $table->string('password');
-            $table->rememberToken();
+            $table->foreignId("adviser_id")->constrained("users")->cascadeOnDelete();
+            $table->string("name");
             $table->timestamps();
+
+            // Set a unique constraint on adviser_id and name columns
+            $table->unique(['adviser_id', 'name']);
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('sections');
     }
 };
