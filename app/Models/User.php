@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Section::class, 'adviser_id');
     }
+
+    public function sectionSubjects(): HasMany
+    {
+        return $this->hasMany(SectionSubject::class, 'teacher_id');
+    }
 }
