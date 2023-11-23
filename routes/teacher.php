@@ -8,4 +8,6 @@ Route::name("teacher.")->group(function () {
 
     Route::get('/dashboard', [TeacherPageController::class, "dashboard"])->name("dashboard");
     Route::get('/my-sections', [TeacherPageController::class, "mySections"])->name("my-sections");
+
+    Route::resource("sections", \App\Http\Controllers\SectionController::class)->except(["create", "edit", "index"]);
 });

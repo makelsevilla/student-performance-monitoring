@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSectionRequest;
 use App\Models\Section;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SectionController extends Controller
 {
@@ -12,7 +14,7 @@ class SectionController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -26,9 +28,10 @@ class SectionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreSectionRequest $request)
     {
-        //
+        \Auth::user()->sections()->create($request->validated());
+        return back();
     }
 
     /**
@@ -36,7 +39,11 @@ class SectionController extends Controller
      */
     public function show(Section $section)
     {
-        //
+        $this->authorize("view", $section);
+        
+        return Inertia::render("Teacher/SectionDetails", [
+            "section" => $section->load(["students", "sectionSubjects"])
+        ]);
     }
 
     /**
@@ -60,6 +67,9 @@ class SectionController extends Controller
      */
     public function destroy(Section $section)
     {
-        //
+        $this->authorize("delete", $section);
+        // delete section
+        $section->delete();
+        return back();
     }
 }

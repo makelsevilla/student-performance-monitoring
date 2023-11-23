@@ -17,6 +17,14 @@ class SectionPolicy
     }
 
     /**
+     * Determine whether the user can create models.
+     */
+    public function create(User $user): bool
+    {
+        return $user->role === 'teacher';
+    }
+
+    /**
      * Determine whether the user can view the model.
      */
     public function view(User $user, Section $section): bool

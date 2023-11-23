@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Section;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -14,6 +15,11 @@ class TeacherPageController extends Controller
 
     public function mySections()
     {
-        return Inertia::render('Teacher/MySections');
+        $user = auth()->user();
+        $sections = $user->sections()->get();
+
+        return Inertia::render("Teacher/MySections", [
+            "sections" => $sections
+        ]);
     }
 }
