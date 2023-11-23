@@ -197,7 +197,7 @@ function StudentActions({ student: { id } }) {
                 <DropdownMenuContent align="end">
                     <DropdownMenuItem>View</DropdownMenuItem>
                     <DropdownMenuItem onSelect={() => setShowDeleteAlert(true)}>
-                        Delete
+                        Remove
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

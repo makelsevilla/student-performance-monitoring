@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class StudentController extends Controller
 {
@@ -43,7 +44,9 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
-        //
+        return Inertia::render("Teacher/StudentSubjectPerformance", [
+            "student" => $student->load(["section:id,name", "section.sectionSubjects" => ["subject"]])
+        ]);
     }
 
     /**
