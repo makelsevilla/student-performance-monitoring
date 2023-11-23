@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\User::factory(10)->create();
+        \App\Models\User::factory(5)->create();
 
         \App\Models\User::factory()->create([
             'name' => 'Bryan Domondon',
@@ -24,12 +24,8 @@ class DatabaseSeeder extends Seeder
             SectionSeeder::class,
             SectionSubjectSeeder::class,
             StudentSeeder::class,
-            SubjectQuizSeeder::class,
-            StudentSubjectQuizScoreSeeder::class,
-            SubjectTaskSeeder::class,
-            StudentSubjectTaskScoreSeeder::class,
-            SubjectExamSeeder::class,
-            StudentSubjectExamScoreSeeder::class,
+            AssessmentSeeder::class,
+            StudentAssessmentScoreSeeder::class,
         ]);
     }
 }
