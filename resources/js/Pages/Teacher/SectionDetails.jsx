@@ -26,6 +26,7 @@ import {
     AlertDialogHeader,
 } from "@/Components/ui/alert-dialog.jsx";
 import { useState } from "react";
+import CreateStudentModal from "@/Components/CreateStudentModal.jsx";
 
 export default function SectionDetails({ section }) {
     console.log(section);
@@ -82,7 +83,41 @@ export default function SectionDetails({ section }) {
 
                     <AccordionItem value="students">
                         <AccordionTrigger>Students</AccordionTrigger>
-                        <AccordionContent>Heyhey</AccordionContent>
+                        <AccordionContent>
+                            <div className="rounded-lg border">
+                                {section.students.map((student) => (
+                                    <div
+                                        key={student.id}
+                                        className="group p-4 hover:bg-secondary"
+                                    >
+                                        <div className="flex items-center">
+                                            <div>
+                                                <div className="text-sm font-semibold capitalize text-gray-700">
+                                                    {student.name}
+                                                </div>
+                                            </div>
+
+                                            <div className="ml-auto">
+                                                <StudentActions
+                                                    student={student}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="mt-4 flex">
+                                <CreateStudentModal sectionId={section.id}>
+                                    <Button
+                                        size="sm"
+                                        className="ml-auto text-xs"
+                                    >
+                                        Add student
+                                    </Button>
+                                </CreateStudentModal>
+                            </div>
+                        </AccordionContent>
                     </AccordionItem>
                 </Accordion>
             </div>
@@ -120,6 +155,49 @@ function SectionSubjectActions({ sectionSubject: { id } }) {
                         <AlertDialogAction className="bg-destructive" asChild>
                             <Link
                                 href={route("teacher.subjects.destroy", id)}
+                                method="delete"
+                                as="button"
+                            >
+                                <span>Delete</span>
+                            </Link>
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+        </>
+    );
+}
+
+function StudentActions({ student: { id } }) {
+    const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+    return (
+        <>
+            <div className="hidden items-center group-hover:flex">
+                <Button
+                    onClick={() => setShowDeleteAlert(true)}
+                    variant="ghost"
+                    className="hover:bg-destructive hover:text-destructive-foreground"
+                    size="sm"
+                >
+                    Remove
+                </Button>
+            </div>
+            <AlertDialog
+                open={showDeleteAlert}
+                onOpenChange={setShowDeleteAlert}
+            >
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        Are you sure you want to remove this student?
+                    </AlertDialogHeader>
+                    <AlertDialogDescription>
+                        This action cannot be undone.
+                    </AlertDialogDescription>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction className="bg-destructive" asChild>
+                            <Link
+                                href={route("teacher.students.destroy", id)}
                                 method="delete"
                                 as="button"
                             >

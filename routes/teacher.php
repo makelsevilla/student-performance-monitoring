@@ -11,4 +11,5 @@ Route::name("teacher.")->group(function () {
 
     Route::resource("sections", \App\Http\Controllers\SectionController::class)->except(["create", "edit", "index"]);
     Route::resource("subjects", \App\Http\Controllers\SectionSubjectController::class)->except(["create", "edit", "index"])->parameter("subjects", "sectionSubject");
+    Route::resource("students", \App\Http\Controllers\StudentController::class)->except(["create", "edit", "index"]);
 });

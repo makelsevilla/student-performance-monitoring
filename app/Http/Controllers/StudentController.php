@@ -28,7 +28,14 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            "name" => "required|string|max:255",
+            "section_id" => "required|exists:sections,id",
+        ]);
+
+        Student::create($validated);
+
+        return back();
     }
 
     /**
@@ -60,6 +67,8 @@ class StudentController extends Controller
      */
     public function destroy(Student $student)
     {
-        //
+        $student->delete();
+
+        return back();
     }
 }
