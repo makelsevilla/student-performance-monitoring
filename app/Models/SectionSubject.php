@@ -37,4 +37,9 @@ class SectionSubject extends Model
         return $this->hasMany(Assessment::class);
     }
 
+    public function byPeriodAndTypeAssessments($period, $type): HasMany
+    {
+        return $this->hasMany(Assessment::class)->where("grading_period", $period)->where("type", $type);
+    }
+
 }

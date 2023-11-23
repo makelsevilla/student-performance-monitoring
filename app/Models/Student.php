@@ -23,18 +23,8 @@ class Student extends Model
         return $this->belongsTo(Section::class);
     }
 
-    public function studentSubjectQuizScores(): HasMany
+    public function studentAssessmentScores(): HasMany
     {
-        return $this->hasMany(StudentSubjectQuizScore::class);
-    }
-
-    public function studentSubjectTaskScores(): HasMany
-    {
-        return $this->hasMany(StudentSubjectTaskScore::class);
-    }
-
-    public function studentSubjectExamScores(): HasMany
-    {
-        return $this->hasMany(StudentSubjectExamScore::class);
+        return $this->hasMany(StudentAssessmentScore::class);
     }
 }

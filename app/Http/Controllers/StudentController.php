@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SectionSubject;
 use App\Models\Student;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -44,8 +46,38 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
+        // get the section subjects of the student
+        $subjects = $student->section->sectionSubjects()->select("id", "name")->get();
+
+        $subjectsBreakdown = $subjects->map(function ($sectionSubject) use ($student) {
+            $periods = ["1" => "first_grading_period", "2" => "second_grading_period", "3" => "third_grading_period", "4" => "fourth_grading_period"];
+            $per_grading_period_assessments = [];
+
+            foreach ($periods as $key => $value) {
+                $per_grading_period_assessments[$value] = [
+                    "quizzes" => $sectionSubject->byPeriodAndTypeAssessments($key, "quiz")->select("id", "name", "total")->get()->map(function ($assessment) use ($student) {
+                        $score = $assessment->studentAssessmentScores()->where("student_id", $student->id)->first()?->score;
+                        return array_merge($assessment->toArray(), ["score" => $score]);
+                    }),
+                    "tasks" => $sectionSubject->byPeriodAndTypeAssessments($key, "task")->select("name", "total")->get()->map(function ($assessment) use ($student) {
+                        $score = $assessment->studentAssessmentScores()->where("student_id", $student->id)->first()?->score;
+                        return array_merge($assessment->toArray(), ["score" => $score]);
+                    }),
+                    "exams" => $sectionSubject->byPeriodAndTypeAssessments($key, "exam")->select("name", "total")->get()->map(function ($assessment) use ($student) {
+                        $score = $assessment->studentAssessmentScores()->where("student_id", $student->id)->first()?->score;
+                        return array_merge($assessment->toArray(), ["score" => $score]);
+                    })
+                ];
+            }
+
+            return array_merge($sectionSubject->toArray(), ["per_grading_period_assessments" => $per_grading_period_assessments]);
+        });;
+
+
         return Inertia::render("Teacher/StudentPerformance", [
-            "student" => $student
+            "student" => $student,
+            "subjects" => $subjects,
+            "subjectsBreakdown" => $subjectsBreakdown,
         ]);
     }
 
