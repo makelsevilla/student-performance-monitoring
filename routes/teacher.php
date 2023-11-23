@@ -10,4 +10,5 @@ Route::name("teacher.")->group(function () {
     Route::get('/my-sections', [TeacherPageController::class, "mySections"])->name("my-sections");
 
     Route::resource("sections", \App\Http\Controllers\SectionController::class)->except(["create", "edit", "index"]);
+    Route::resource("subjects", \App\Http\Controllers\SectionSubjectController::class)->except(["create", "edit", "index"])->parameter("subjects", "sectionSubject");
 });

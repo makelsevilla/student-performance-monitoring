@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSectionSubjectRequest;
 use App\Models\SectionSubject;
 use Illuminate\Http\Request;
+use Illuminate\Session\Store;
 
 class SectionSubjectController extends Controller
 {
@@ -26,9 +28,10 @@ class SectionSubjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreSectionSubjectRequest $request)
     {
-        //
+        SectionSubject::create($request->validated());
+        return back();
     }
 
     /**
@@ -60,6 +63,7 @@ class SectionSubjectController extends Controller
      */
     public function destroy(SectionSubject $sectionSubject)
     {
-        //
+        $sectionSubject->delete();
+        return back();
     }
 }

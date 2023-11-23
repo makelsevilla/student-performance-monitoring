@@ -20,6 +20,8 @@ Route::get("/", function () {
     return redirect()->route("teacher.dashboard");
 });
 
+Route::get("/user/teachers", [App\Http\Controllers\UserController::class, "getTeachers"]);
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

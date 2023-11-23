@@ -14,6 +14,7 @@ class SectionSubject extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'section_id',
         'teacher_id',
         'name',
         'quiz_weight',

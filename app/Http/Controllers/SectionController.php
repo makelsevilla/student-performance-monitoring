@@ -40,9 +40,9 @@ class SectionController extends Controller
     public function show(Section $section)
     {
         $this->authorize("view", $section);
-        
+
         return Inertia::render("Teacher/SectionDetails", [
-            "section" => $section->load(["students", "sectionSubjects"])
+            "section" => $section->load(["students", "sectionSubjects" => ["teacher"]])
         ]);
     }
 
