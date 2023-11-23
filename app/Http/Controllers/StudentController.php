@@ -44,8 +44,8 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
-        return Inertia::render("Teacher/StudentSubjectPerformance", [
-            "student" => $student->load(["section:id,name", "section.sectionSubjects" => ["subject"]])
+        return Inertia::render("Teacher/StudentPerformance", [
+            "student" => $student
         ]);
     }
 

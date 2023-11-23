@@ -195,7 +195,13 @@ function StudentActions({ student: { id } }) {
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                    <DropdownMenuItem>View</DropdownMenuItem>
+                    <DropdownMenuItem
+                        onSelect={() =>
+                            router.get(route("teacher.students.show", id))
+                        }
+                    >
+                        View
+                    </DropdownMenuItem>
                     <DropdownMenuItem onSelect={() => setShowDeleteAlert(true)}>
                         Remove
                     </DropdownMenuItem>
