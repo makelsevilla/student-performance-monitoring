@@ -2,17 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\Assessment;
+use App\Models\StudentAssessmentScore;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class AssessmentSeeder extends Seeder
+class StudentAssessmentScoreSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Assessment::factory(15)->create();
+        StudentAssessmentScore::factory(50)->create();
     }
 }
