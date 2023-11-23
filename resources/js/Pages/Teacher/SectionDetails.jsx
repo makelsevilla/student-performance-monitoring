@@ -8,14 +8,7 @@ import {
 } from "@/Components/ui/accordion.jsx";
 import CreateSectionSubjectModal from "@/Components/CreateSectionSubjectModal.jsx";
 import { Button } from "@/Components/ui/button.jsx";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/Components/ui/dropdown-menu.jsx";
-import { Icons } from "@/Components/Icons.jsx";
-import { Link, router } from "@inertiajs/react";
+import { Link } from "@inertiajs/react";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -41,29 +34,33 @@ export default function SectionDetails({ section }) {
                         <AccordionTrigger>Subjects</AccordionTrigger>
                         <AccordionContent>
                             <div className="rounded-lg border">
-                                {section.section_subjects.map((subject) => (
-                                    <div
-                                        key={subject.id}
-                                        className="group p-4 hover:bg-secondary"
-                                    >
-                                        <div className="flex items-center">
-                                            <div>
-                                                <div className="text-sm font-semibold capitalize text-gray-700">
-                                                    {subject.name}
+                                {section.section_subjects
+                                    .sort((a, b) =>
+                                        a.name.localeCompare(b.name),
+                                    )
+                                    .map((subject) => (
+                                        <div
+                                            key={subject.id}
+                                            className="group p-4 hover:bg-secondary"
+                                        >
+                                            <div className="flex items-center">
+                                                <div>
+                                                    <div className="text-sm font-semibold capitalize text-gray-700">
+                                                        {subject.name}
+                                                    </div>
+                                                    <div className="text-xs text-gray-500">
+                                                        {subject?.teacher?.name}
+                                                    </div>
                                                 </div>
-                                                <div className="text-xs text-gray-500">
-                                                    {subject?.teacher?.name}
-                                                </div>
-                                            </div>
 
-                                            <div className="ml-auto">
-                                                <SectionSubjectActions
-                                                    sectionSubject={subject}
-                                                />
+                                                <div className="ml-auto">
+                                                    <SectionSubjectActions
+                                                        sectionSubject={subject}
+                                                    />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))}
                             </div>
 
                             <div className="mt-4 flex">
@@ -85,26 +82,30 @@ export default function SectionDetails({ section }) {
                         <AccordionTrigger>Students</AccordionTrigger>
                         <AccordionContent>
                             <div className="rounded-lg border">
-                                {section.students.map((student) => (
-                                    <div
-                                        key={student.id}
-                                        className="group p-4 hover:bg-secondary"
-                                    >
-                                        <div className="flex items-center">
-                                            <div>
-                                                <div className="text-sm font-semibold capitalize text-gray-700">
-                                                    {student.name}
+                                {section.students
+                                    .sort((a, b) =>
+                                        a.name.localeCompare(b.name),
+                                    )
+                                    .map((student) => (
+                                        <div
+                                            key={student.id}
+                                            className="group p-4 hover:bg-secondary"
+                                        >
+                                            <div className="flex items-center">
+                                                <div>
+                                                    <div className="text-sm font-semibold capitalize text-gray-700">
+                                                        {student.name}
+                                                    </div>
+                                                </div>
+
+                                                <div className="ml-auto">
+                                                    <StudentActions
+                                                        student={student}
+                                                    />
                                                 </div>
                                             </div>
-
-                                            <div className="ml-auto">
-                                                <StudentActions
-                                                    student={student}
-                                                />
-                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))}
                             </div>
 
                             <div className="mt-4 flex">
