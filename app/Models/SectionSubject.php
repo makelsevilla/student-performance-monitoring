@@ -32,18 +32,9 @@ class SectionSubject extends Model
         return $this->belongsTo(User::class, "teacher_id");
     }
 
-    public function quizzes(): HasMany
+    public function assessments(): HasMany
     {
-        return $this->hasMany(SubjectQuiz::class);
+        return $this->hasMany(Assessment::class);
     }
 
-    public function tasks(): HasMany
-    {
-        return $this->hasMany(SubjectTask::class);
-    }
-
-    public function exams(): HasMany
-    {
-        return $this->hasMany(SubjectExam::class);
-    }
 }
