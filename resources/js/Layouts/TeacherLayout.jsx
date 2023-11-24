@@ -35,9 +35,12 @@ export default function TeacherLayout({ children }) {
                             <Button
                                 variant="ghost"
                                 className="w-full justify-start text-lg"
+                                asChild
                             >
-                                <Icons.library className="h-5 w-5" />
-                                <span className="ps-3">Subjects</span>
+                                <Link href={route("teacher.my-subjects")}>
+                                    <Icons.library className="h-5 w-5" />
+                                    <span className="ps-3">Subjects</span>
+                                </Link>
                             </Button>
                         </li>
                     </ul>

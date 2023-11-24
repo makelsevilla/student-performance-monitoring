@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('assessments', function (Blueprint $table) {
             $table->id();
             $table->foreignId("section_subject_id")->constrained()->cascadeOnDelete();
-            $table->string("type")->comment("quiz, exam, tasks");
+            $table->string("type")->comment("quiz, exam, task");
             $table->string("name");
             $table->integer("total");
             $table->integer("grading_period");

@@ -6,6 +6,7 @@ use App\Http\Requests\StoreSectionSubjectRequest;
 use App\Models\SectionSubject;
 use Illuminate\Http\Request;
 use Illuminate\Session\Store;
+use Inertia\Inertia;
 
 class SectionSubjectController extends Controller
 {
@@ -39,7 +40,22 @@ class SectionSubjectController extends Controller
      */
     public function show(SectionSubject $sectionSubject)
     {
-        //
+        // get the subject section assessments
+        $per_grading_period_assessments = [];
+
+        $periods = ["1" => "first_grading_period", "2" => "second_grading_period", "3" => "third_grading_period", "4" => "fourth_grading_period"];
+        foreach ($periods as $key => $value) {
+            $per_grading_period_assessments[$value] = [
+                "quizzes" => $sectionSubject->byPeriodAndTypeAssessments($key, "quiz")->select("id", "name", "total")->get(),
+                "tasks" => $sectionSubject->byPeriodAndTypeAssessments($key, "task")->select("id", "name", "total")->get(),
+                "exams" => $sectionSubject->byPeriodAndTypeAssessments($key, "exam")->select("id", "name", "total")->get()
+            ];
+        }
+
+        return Inertia::render("Teacher/SubjectDetails", [
+            "subject" => $sectionSubject->load(["section"]),
+            "periodicAssessments" => $per_grading_period_assessments,
+        ]);
     }
 
     /**

@@ -21,7 +21,7 @@ class AssessmentFactory extends Factory
 
         return [
             'section_subject_id' => $sectionSubject->id,
-            'type' => fake()->randomElement(['quiz', 'exam', 'tasks']),
+            'type' => fake()->randomElement(['quiz', 'exam', 'task']),
             'name' => fake()->word,
             'total' => fake()->numberBetween(20, 100),
             'grading_period' => fake()->numberBetween(1, 4),

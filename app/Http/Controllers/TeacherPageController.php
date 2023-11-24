@@ -22,4 +22,14 @@ class TeacherPageController extends Controller
             "sections" => $sections
         ]);
     }
+
+    public function mySubjects()
+    {
+        $user = auth()->user();
+        $subjects = $user->sectionSubjects()->with(["section"])->orderBy("name")->get();
+
+        return Inertia::render("Teacher/MySubjects", [
+            "subjects" => $subjects
+        ]);
+    }
 }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Assessment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Inertia\Inertia;
 
 class AssessmentController extends Controller
 {
@@ -28,7 +30,23 @@ class AssessmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'section_subject_id' => 'required|exists:section_subjects,id',
+            'type' => 'required|in:quiz,exam,task',
+            'name' => 'required|string',
+            'total' => 'required|integer',
+            'grading_period' => 'required|integer|between:1,4',
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        Assessment::create($validator->validated());
+
+        return back();
     }
 
     /**
@@ -36,7 +54,10 @@ class AssessmentController extends Controller
      */
     public function show(Assessment $assessment)
     {
-        //
+        $assessment->load(["sectionSubject" => ["section" => ["students" => ["studentAssessmentScores" => function ($query) use ($assessment) {
+            $query->where("assessment_id", $assessment->id)->first();
+        }]]]]);
+        return Inertia::render("Teacher/AssessmentDetails", ["assessment" => $assessment]);
     }
 
     /**
@@ -60,6 +81,8 @@ class AssessmentController extends Controller
      */
     public function destroy(Assessment $assessment)
     {
-        //
+        $assessment->delete();
+
+        return back();
     }
 }

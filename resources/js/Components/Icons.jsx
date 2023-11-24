@@ -1,13 +1,17 @@
 import {
+    ClipboardEdit,
     Gauge,
     Library,
     LogOut,
     MoreVertical,
     Settings,
+    Trash2,
     Users,
 } from "lucide-react";
 
 export const Icons = {
+    clipboardEdit: ClipboardEdit,
+    trash: Trash2,
     dashboard: Gauge,
     moreVertical: MoreVertical,
     settings: Settings,
