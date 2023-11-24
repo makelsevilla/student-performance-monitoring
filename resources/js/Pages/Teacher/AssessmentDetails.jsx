@@ -81,7 +81,25 @@ function StudentScoresTableForm({
     assessmentId,
     assessmentTotal,
 }) {
-    const { data, setData, put, processing, errors, reset } = useForm({});
+    const { data, setData, put, processing, errors, reset, transform } =
+        useForm({});
+
+    transform((data) => {
+        // transform data to array student_scores = [{student_id: 1, score: 1}, {student_id: 2, score: 2}]
+        const student_scores = Object.keys(data).map((studentId) => {
+            return {
+                student_id: studentId,
+                score: data[studentId],
+            };
+        });
+
+        return { student_scores };
+    });
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        put(route("teacher.assessments.update", assessmentId));
+    };
 
     useEffect(() => {
         const data = {};
@@ -97,7 +115,7 @@ function StudentScoresTableForm({
     console.log(data);
 
     return (
-        <form>
+        <form onSubmit={handleSubmit}>
             <Table>
                 <TableHeader>
                     <TableRow>
@@ -113,14 +131,21 @@ function StudentScoresTableForm({
                                 <Input
                                     className="w-24"
                                     value={
-                                        data?.[student.id]
+                                        data?.[student.id] !== undefined
                                             ? data[student.id]
                                             : ""
                                     }
                                     onChange={(e) => {
-                                        let value = e.target.value;
+                                        let value = parseInt(e.target.value);
+                                        if (isNaN(value)) {
+                                            value = 0;
+                                        }
                                         if (value > assessmentTotal) {
                                             value = assessmentTotal;
+                                        }
+
+                                        if (value < 0) {
+                                            value = 0;
                                         }
 
                                         setData(`${student.id}`, value);

@@ -73,7 +73,7 @@ class AssessmentController extends Controller
      */
     public function update(Request $request, Assessment $assessment)
     {
-        //
+        dd($request->all());
     }
 
     /**
