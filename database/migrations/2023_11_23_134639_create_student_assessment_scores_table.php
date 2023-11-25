@@ -14,6 +14,8 @@ return new class extends Migration {
             $table->foreignId("student_id")->constrained()->cascadeOnDelete();
             $table->foreignId("assessment_id")->constrained()->cascadeOnDelete();
             $table->integer("score")->default(0);
+
+            $table->unique(["student_id", "assessment_id"]);
         });
     }
 

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Assessment;
+use App\Models\StudentAssessmentScore;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
@@ -55,7 +57,7 @@ class AssessmentController extends Controller
     public function show(Assessment $assessment)
     {
         $assessment->load(["sectionSubject" => ["section" => ["students" => ["studentAssessmentScores" => function ($query) use ($assessment) {
-            $query->where("assessment_id", $assessment->id)->first();
+            $query->where("assessment_id", $assessment->id);
         }]]]]);
         return Inertia::render("Teacher/AssessmentDetails", ["assessment" => $assessment]);
     }
@@ -73,7 +75,25 @@ class AssessmentController extends Controller
      */
     public function update(Request $request, Assessment $assessment)
     {
-        dd($request->all());
+        // update the student_scores
+        $validated = $request->validate([
+            'student_scores' => 'required|array',
+            'student_scores.*.student_id' => 'required|exists:students,id',
+            'student_scores.*.score' => 'integer',
+        ]);
+
+        // iterate over the student_scores and update the score
+        foreach ($validated['student_scores'] as $student_score) {
+            DB::table("student_assessment_scores")->updateOrInsert([
+                "student_id" => $student_score["student_id"],
+                "assessment_id" => $assessment->id,
+            ], [
+                "score" => $student_score["score"],
+            ]);
+        }
+
+        return back();
+
     }
 
     /**

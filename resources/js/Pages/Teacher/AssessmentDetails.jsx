@@ -106,7 +106,7 @@ function StudentScoresTableForm({
 
         studentsScore.forEach((student) => {
             if (student.student_assessment_scores.length > 0) {
-                data[student.id] = student.student_assessment_scores[0];
+                data[student.id] = student.student_assessment_scores[0].score;
             }
         });
 
@@ -124,8 +124,8 @@ function StudentScoresTableForm({
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {studentsScore.map((student) => (
-                        <TableRow key={student.id}>
+                    {studentsScore.map((student, idx) => (
+                        <TableRow key={idx}>
                             <TableCell>{student.name}</TableCell>
                             <TableCell>
                                 <Input
@@ -152,7 +152,6 @@ function StudentScoresTableForm({
                                     }}
                                     type="number"
                                 />
-                                {student.student_assessment_scores[0]}
                             </TableCell>
                         </TableRow>
                     ))}
