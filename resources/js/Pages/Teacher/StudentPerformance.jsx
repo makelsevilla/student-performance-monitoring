@@ -87,6 +87,9 @@ export default function StudentPerformance({
                                     <TableCell>
                                         {subjectGrade.fourth_quarter}
                                     </TableCell>
+                                    <TableCell>
+                                        {subjectGrade.final_grade}
+                                    </TableCell>
                                     <TableCell>Passed</TableCell>
                                 </TableRow>
                             ))}

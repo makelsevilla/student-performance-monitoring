@@ -50,6 +50,7 @@ class StudentController extends Controller
         $subjects = $student->section->sectionSubjects()->get();
 
         $subjectGrades = $subjects->map(function ($sectionSubject) use ($student) {
+            $per_quarter_grades = [];
             $periods = [1 => "first_quarter", 2 => "second_quarter", 3 => "third_quarter", 4 => "fourth_quarter"];
             foreach ($periods as $period => $period_txt) {
                 $initialGrade = null;
@@ -89,11 +90,24 @@ class StudentController extends Controller
                     $per_quarter_grades[$period_txt] = null;
                 else
                     $per_quarter_grades[$period_txt] = $this->transmuteInitGrade($initialGrade);
-
-
             }
 
-            return array_merge($sectionSubject->toArray(), $per_quarter_grades);
+            // compute the final grade
+            $finalGradeAvg = null;
+            foreach ($per_quarter_grades as $quarter => $grade) {
+                if ($grade === null) {
+                    $finalGradeAvg = null;
+                    break;
+                }
+
+                if ($finalGradeAvg === null) {
+                    $finalGradeAvg = $grade / 4;
+                } else {
+                    $finalGradeAvg += $grade / 4;
+                }
+            }
+
+            return array_merge($sectionSubject->toArray(), $per_quarter_grades, ["final_grade" => $finalGradeAvg]);
         });
 
         $subjectsBreakdown = $subjects->map(function ($sectionSubject) use ($student) {
