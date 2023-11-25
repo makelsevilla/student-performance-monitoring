@@ -42,4 +42,10 @@ class SectionSubject extends Model
         return $this->hasMany(Assessment::class)->where("grading_period", $period)->where("type", $type);
     }
 
+    public function typeWeight($type): int
+    {
+        $type_weight = "{$type}_weight";
+        return $this->$type_weight;
+    }
+
 }

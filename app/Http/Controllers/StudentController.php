@@ -49,6 +49,59 @@ class StudentController extends Controller
         // get the section subjects of the student
         $subjects = $student->section->sectionSubjects()->select("id", "name")->get();
 
+        $subjectGrades = $subjects->map(function ($sectionSubject) use ($student) {
+            $per_quarter_grades = [];
+
+            $periods = [1 => "first_quarter", 2 => "second_quarter", 3 => "third_quarter", 4 => "fourth_quarter"];
+            foreach ($periods as $period => $period_txt) {
+                $assessment_types_weighted_scores = [
+                    "quiz" => null,
+                    "task" => null,
+                    "exam" => null,
+                ];
+
+                $types = ["quiz", "task", "exam"];
+                foreach ($types as $type) {
+                    $typed_assessments = $sectionSubject->byPeriodAndTypeAssessments($period, $type)->get();
+                    $typed_assessments_count = $typed_assessments->count();
+                    $type_weight = $sectionSubject->typeWeight($type);
+
+                    $student_scores = $typed_assessments->map(function ($assessment) use ($student) {
+                        return $assessment->studentAssessmentScores()->where("student_id", $student->id)->first()?->score;
+                    });
+
+                    $score_sum = 0;
+                    foreach ($student_scores as $score) {
+                        if ($score) {
+                            $score_sum += $score;
+                        }
+                    }
+
+                    $weighted_score = $typed_assessments_count > 0 ? $typed_assessments_count * ($type_weight / 100) * $score_sum : null;
+
+                    $assessment_types_weighted_scores[$type] = $weighted_score;
+                }
+
+                $weighted_scores_have_null = false;
+                foreach ($assessment_types_weighted_scores as $type => $initialGrade) {
+                    if ($initialGrade == null) {
+                        $weighted_scores_have_null = true;
+                        break;
+                    }
+                }
+
+                if (!$weighted_scores_have_null) {
+                    $initialGrade = 0;
+                    foreach ($assessment_types_weighted_scores as $type => $weighted_score) {
+                        $initialGrade += $weighted_score;
+                    }
+                    $per_quarter_grades[$period_txt] = $this->transmuteInitGrade($initialGrade);
+                }
+            }
+
+            return array_merge($sectionSubject->toArray(), $per_quarter_grades);
+        });
+
         $subjectsBreakdown = $subjects->map(function ($sectionSubject) use ($student) {
             $periods = ["1" => "first_grading_period", "2" => "second_grading_period", "3" => "third_grading_period", "4" => "fourth_grading_period"];
             $per_grading_period_assessments = [];
@@ -72,6 +125,8 @@ class StudentController extends Controller
 
             return array_merge($sectionSubject->toArray(), ["per_grading_period_assessments" => $per_grading_period_assessments]);
         });;
+
+        // get the overall grade of student in every subject (per grading period)
 
 
         return Inertia::render("Teacher/StudentPerformance", [
@@ -105,5 +160,88 @@ class StudentController extends Controller
         $student->delete();
 
         return back();
+    }
+
+    private function transmuteInitGrade($initGrade)
+    {
+        if ($initialGrade == 100) {
+            return 100;
+        } elseif (98.4 <= $initialGrade && $initialGrade <= 99.99) {
+            return 99;
+        } elseif (96.8 <= $initialGrade && $initialGrade <= 98.39) {
+            return 98;
+        } elseif (95.2 <= $initialGrade && $initialGrade <= 96.79) {
+            return 97;
+        } elseif (93.6 <= $initialGrade && $initialGrade <= 95.19) {
+            return 96;
+        } elseif (92.0 <= $initialGrade && $initialGrade <= 93.59) {
+            return 95;
+        } elseif (90.4 <= $initialGrade && $initialGrade <= 91.99) {
+            return 94;
+        } elseif (88.8 <= $initialGrade && $initialGrade <= 90.39) {
+            return 93;
+        } elseif (87.2 <= $initialGrade && $initialGrade <= 88.79) {
+            return 92;
+        } elseif (85.6 <= $initialGrade && $initialGrade <= 87.19) {
+            return 91;
+        } elseif (84.0 <= $initialGrade && $initialGrade <= 85.59) {
+            return 90;
+        } elseif (82.4 <= $initialGrade && $initialGrade <= 83.99) {
+            return 89;
+        } elseif (80.8 <= $initialGrade && $initialGrade <= 82.39) {
+            return 88;
+        } elseif (79.2 <= $initialGrade && $initialGrade <= 80.79) {
+            return 87;
+        } elseif (77.6 <= $initialGrade && $initialGrade <= 79.19) {
+            return 86;
+        } elseif (76.0 <= $initialGrade && $initialGrade <= 77.59) {
+            return 85;
+        } elseif (74.4 <= $initialGrade && $initialGrade <= 75.99) {
+            return 84;
+        } elseif (72.8 <= $initialGrade && $initialGrade <= 74.39) {
+            return 83;
+        } elseif (71.2 <= $initialGrade && $initialGrade <= 72.79) {
+            return 82;
+        } elseif (69.6 <= $initialGrade && $initialGrade <= 71.19) {
+            return 81;
+        } elseif (68.0 <= $initialGrade && $initialGrade <= 69.59) {
+            return 80;
+        } elseif (61.6 <= $initialGrade && $initialGrade <= 63.19) {
+            return 76;
+        } elseif (60.0 <= $initialGrade && $initialGrade <= 61.59) {
+            return 75;
+        } elseif (56.0 <= $initialGrade && $initialGrade <= 59.99) {
+            return 74;
+        } elseif (52.0 <= $initialGrade && $initialGrade <= 55.99) {
+            return 73;
+        } elseif (48.0 <= $initialGrade && $initialGrade <= 51.99) {
+            return 72;
+        } elseif (44.0 <= $initialGrade && $initialGrade <= 47.99) {
+            return 71;
+        } elseif (40.0 <= $initialGrade && $initialGrade <= 43.99) {
+            return 70;
+        } elseif (36.0 <= $initialGrade && $initialGrade <= 39.99) {
+            return 69;
+        } elseif (32.0 <= $initialGrade && $initialGrade <= 35.99) {
+            return 68;
+        } elseif (28.0 <= $initialGrade && $initialGrade <= 31.99) {
+            return 67;
+        } elseif (24.0 <= $initialGrade && $initialGrade <= 27.99) {
+            return 66;
+        } elseif (20.0 <= $initialGrade && $initialGrade <= 23.99) {
+            return 65;
+        } elseif (16.0 <= $initialGrade && $initialGrade <= 19.99) {
+            return 64;
+        } elseif (12.0 <= $initialGrade && $initialGrade <= 15.99) {
+            return 63;
+        } elseif (8.0 <= $initialGrade && $initialGrade <= 11.99) {
+            return 62;
+        } elseif (4.0 <= $initialGrade && $initialGrade <= 7.99) {
+            return 61;
+        } elseif (0.0 <= $initialGrade && $initialGrade <= 3.99) {
+            return 60;
+        } else {
+            return null;
+        }
     }
 }

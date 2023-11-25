@@ -54,18 +54,18 @@ export default function StudentPerformance({
                                     </span>
                                 </TableHead>
                                 <TableHead>
-                                    1<sup>st</sup> Period
+                                    1<sup>st</sup> Quarter
                                 </TableHead>
                                 <TableHead>
-                                    2<sup>nd</sup> Period
+                                    2<sup>nd</sup> Quarter
                                 </TableHead>
                                 <TableHead>
-                                    3<sup>rd</sup> Period
+                                    3<sup>rd</sup> Quarter
                                 </TableHead>
                                 <TableHead>
-                                    4<sup>th</sup> Period
+                                    4<sup>th</sup> Quarter
                                 </TableHead>
-                                <TableHead>Total</TableHead>
+                                <TableHead>Final Grade</TableHead>
                                 <TableHead>Remark</TableHead>
                             </TableRow>
                         </TableHeader>
@@ -80,7 +80,7 @@ export default function StudentPerformance({
                                 <TableCell>Passed</TableCell>
                             </TableRow>
                         </TableBody>
-                        <TableCaption>Student Overall Perfomance</TableCaption>
+                        <TableCaption>Student Grades</TableCaption>
                     </Table>
                 </div>
 

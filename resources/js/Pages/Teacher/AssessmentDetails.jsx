@@ -20,8 +20,6 @@ import { Input } from "@/Components/ui/input.jsx";
 import { Button } from "@/Components/ui/button.jsx";
 
 export default function AssessmentDetails({ assessment }) {
-    console.log(assessment);
-
     return (
         <TeacherLayout>
             <div className="space-y-8">

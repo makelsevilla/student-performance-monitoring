@@ -31,4 +31,11 @@ class Assessment extends Model
         return $this->hasMany(StudentAssessmentScore::class);
     }
 
+    public function typeWeight(): int
+    {
+        $type = $this->type;
+        $type_weight = "{$type}_weight";
+        return $this->sectionSubject->$type_weight;
+    }
+
 }
