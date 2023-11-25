@@ -47,13 +47,15 @@ class StudentController extends Controller
     public function show(Student $student)
     {
         // get the section subjects of the student
-        $subjects = $student->section->sectionSubjects()->select("id", "name")->get();
+        $subjects = $student->section->sectionSubjects()->get();
 
         $subjectGrades = $subjects->map(function ($sectionSubject) use ($student) {
             $per_quarter_grades = [];
 
             $periods = [1 => "first_quarter", 2 => "second_quarter", 3 => "third_quarter", 4 => "fourth_quarter"];
             foreach ($periods as $period => $period_txt) {
+                $per_quarter_grades[$period_txt] = null;
+
                 $assessment_types_weighted_scores = [
                     "quiz" => null,
                     "task" => null,
@@ -77,14 +79,19 @@ class StudentController extends Controller
                         }
                     }
 
-                    $weighted_score = $typed_assessments_count > 0 ? $typed_assessments_count * ($type_weight / 100) * $score_sum : null;
+                    if ($typed_assessments_count > 0 && $type_weight && $score_sum) {
+                        $weighted_score = $typed_assessments_count * ($type_weight / 100) * $score_sum;
+                        $assessment_types_weighted_scores[$type] = $weighted_score;
+                    } else {
+                        $assessment_types_weighted_scores[$type] = null;
+                    }
 
-                    $assessment_types_weighted_scores[$type] = $weighted_score;
+
                 }
 
                 $weighted_scores_have_null = false;
-                foreach ($assessment_types_weighted_scores as $type => $initialGrade) {
-                    if ($initialGrade == null) {
+                foreach ($assessment_types_weighted_scores as $type => $weighted_score) {
+                    if ($weighted_score == null) {
                         $weighted_scores_have_null = true;
                         break;
                     }
@@ -112,11 +119,11 @@ class StudentController extends Controller
                         $score = $assessment->studentAssessmentScores()->where("student_id", $student->id)->first()?->score;
                         return array_merge($assessment->toArray(), ["score" => $score]);
                     }),
-                    "tasks" => $sectionSubject->byPeriodAndTypeAssessments($key, "task")->select("name", "total")->get()->map(function ($assessment) use ($student) {
+                    "tasks" => $sectionSubject->byPeriodAndTypeAssessments($key, "task")->select("id", "name", "total")->get()->map(function ($assessment) use ($student) {
                         $score = $assessment->studentAssessmentScores()->where("student_id", $student->id)->first()?->score;
                         return array_merge($assessment->toArray(), ["score" => $score]);
                     }),
-                    "exams" => $sectionSubject->byPeriodAndTypeAssessments($key, "exam")->select("name", "total")->get()->map(function ($assessment) use ($student) {
+                    "exams" => $sectionSubject->byPeriodAndTypeAssessments($key, "exam")->select("id", "name", "total")->get()->map(function ($assessment) use ($student) {
                         $score = $assessment->studentAssessmentScores()->where("student_id", $student->id)->first()?->score;
                         return array_merge($assessment->toArray(), ["score" => $score]);
                     })
@@ -133,6 +140,7 @@ class StudentController extends Controller
             "student" => $student,
             "subjects" => $subjects,
             "subjectsBreakdown" => $subjectsBreakdown,
+            "subjectGrades" => $subjectGrades,
         ]);
     }
 
@@ -162,7 +170,7 @@ class StudentController extends Controller
         return back();
     }
 
-    private function transmuteInitGrade($initGrade)
+    private function transmuteInitGrade($initialGrade)
     {
         if ($initialGrade == 100) {
             return 100;

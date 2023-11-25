@@ -53,8 +53,6 @@ import InputError from "@/Components/InputError.jsx";
 import { useState } from "react";
 
 export default function SubjectDetails({ subject, periodicAssessments }) {
-    console.log(subject);
-
     return (
         <TeacherLayout>
             <PageHeader

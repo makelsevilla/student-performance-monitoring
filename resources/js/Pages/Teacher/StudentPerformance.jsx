@@ -31,7 +31,9 @@ export default function StudentPerformance({
     student,
     subjects,
     subjectsBreakdown,
+    subjectGrades,
 }) {
+    console.log(subjectGrades);
     const [selectedSubject, setSelectedSubject] = useState(null);
 
     return (
@@ -133,8 +135,6 @@ export default function StudentPerformance({
 }
 
 function SubjectBreakdownTab({ subject }) {
-    console.log(subject);
-
     return (
         <div className="flex justify-center">
             <Tabs>
@@ -151,11 +151,15 @@ function SubjectBreakdownTab({ subject }) {
                 </TabsList>
                 {Object.entries(subject.per_grading_period_assessments).map(
                     ([period, assessments]) => (
-                        <TabsContent value={period} className="space-y-8">
+                        <TabsContent
+                            key={period}
+                            value={period}
+                            className="space-y-8"
+                        >
                             <Card>
                                 {Object.entries(assessments).map(
                                     ([assessment, results]) => (
-                                        <div className="p-4">
+                                        <div key={assessment} className="p-4">
                                             <h1 className="text-xl capitalize">
                                                 {assessment}
                                             </h1>
@@ -174,19 +178,27 @@ function SubjectBreakdownTab({ subject }) {
                                                     </TableRow>
                                                 </TableHeader>
                                                 <TableBody>
-                                                    {results.map((result) => (
-                                                        <TableRow>
-                                                            <TableCell>
-                                                                {result.name}
-                                                            </TableCell>
-                                                            <TableCell>
-                                                                {result.total}
-                                                            </TableCell>
-                                                            <TableCell>
-                                                                {result.score}
-                                                            </TableCell>
-                                                        </TableRow>
-                                                    ))}
+                                                    {results.map(
+                                                        (result, idx) => (
+                                                            <TableRow key={idx}>
+                                                                <TableCell>
+                                                                    {
+                                                                        result.name
+                                                                    }
+                                                                </TableCell>
+                                                                <TableCell>
+                                                                    {
+                                                                        result.total
+                                                                    }
+                                                                </TableCell>
+                                                                <TableCell>
+                                                                    {
+                                                                        result.score
+                                                                    }
+                                                                </TableCell>
+                                                            </TableRow>
+                                                        ),
+                                                    )}
                                                 </TableBody>
                                             </Table>
                                         </div>

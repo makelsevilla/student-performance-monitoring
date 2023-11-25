@@ -110,7 +110,6 @@ function StudentScoresTableForm({
 
         setData(data);
     }, []);
-    console.log(data);
 
     return (
         <form onSubmit={handleSubmit}>
