@@ -52,9 +52,7 @@ class StudentController extends Controller
         $subjectGrades = $subjects->map(function ($sectionSubject) use ($student) {
             $periods = [1 => "first_quarter", 2 => "second_quarter", 3 => "third_quarter", 4 => "fourth_quarter"];
             foreach ($periods as $period => $period_txt) {
-                $per_quarter_grades[$period_txt] = null;
-
-                $initialGrade = 0;
+                $initialGrade = null;
 
                 $types = ["quiz", "task", "exam"];
                 foreach ($types as $type) {
@@ -87,7 +85,10 @@ class StudentController extends Controller
 
                 }
 
-                $per_quarter_grades[$period_txt] = $this->transmuteInitGrade($initialGrade);
+                if ($initialGrade === null)
+                    $per_quarter_grades[$period_txt] = null;
+                else
+                    $per_quarter_grades[$period_txt] = $this->transmuteInitGrade($initialGrade);
 
 
             }

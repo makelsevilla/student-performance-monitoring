@@ -72,15 +72,24 @@ export default function StudentPerformance({
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            <TableRow>
-                                <TableCell>subj name</TableCell>
-                                <TableCell>80</TableCell>
-                                <TableCell>80</TableCell>
-                                <TableCell>80</TableCell>
-                                <TableCell>80</TableCell>
-                                <TableCell>80</TableCell>
-                                <TableCell>Passed</TableCell>
-                            </TableRow>
+                            {subjectGrades.map((subjectGrade) => (
+                                <TableRow key={subjectGrade.id}>
+                                    <TableCell>{subjectGrade.name}</TableCell>
+                                    <TableCell>
+                                        {subjectGrade.first_quarter}
+                                    </TableCell>
+                                    <TableCell>
+                                        {subjectGrade.second_quarter}
+                                    </TableCell>
+                                    <TableCell>
+                                        {subjectGrade.third_quarter}
+                                    </TableCell>
+                                    <TableCell>
+                                        {subjectGrade.fourth_quarter}
+                                    </TableCell>
+                                    <TableCell>Passed</TableCell>
+                                </TableRow>
+                            ))}
                         </TableBody>
                         <TableCaption>Student Grades</TableCaption>
                     </Table>
