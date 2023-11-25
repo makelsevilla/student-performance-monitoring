@@ -53,6 +53,8 @@ import InputError from "@/Components/InputError.jsx";
 import { useState } from "react";
 
 export default function SubjectDetails({ subject, periodicAssessments }) {
+    console.log(subject);
+
     return (
         <TeacherLayout>
             <PageHeader
@@ -74,10 +76,79 @@ export default function SubjectDetails({ subject, periodicAssessments }) {
                     </CreateAssessmentModal>
                 </PageHeader>
                 <div>
+                    <div className="mb-4">
+                        <AssessmentTypeWeightsForm subject={subject} />
+                    </div>
                     <AssessmentsTab periodicAssessments={periodicAssessments} />
                 </div>
             </div>
         </TeacherLayout>
+    );
+}
+
+function AssessmentTypeWeightsForm({
+    subject: { id, quiz_weight, exam_weight, task_weight },
+}) {
+    const { data, setData, put, processing, errors } = useForm({
+        quiz_weight: quiz_weight,
+        exam_weight: exam_weight,
+        task_weight: task_weight,
+    });
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        put(route("teacher.subjects.update", id));
+    };
+    return (
+        <form onSubmit={handleSubmit}>
+            <Card>
+                <CardHeader>
+                    <CardTitle className="text-lg">
+                        Assessment Type Weights
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <Table className="w-fit">
+                        <TableBody>
+                            {[
+                                { label: "Quiz", name: "quiz_weight" },
+                                { label: "Exam", name: "exam_weight" },
+                                { label: "Task", name: "task_weight" },
+                            ].map(({ label, name }) => (
+                                <TableRow>
+                                    <TableCell className="font-bold">
+                                        {label}
+                                    </TableCell>
+                                    <TableCell>
+                                        <Input
+                                            value={data[name]}
+                                            onChange={(e) => {
+                                                setData(
+                                                    `${name}`,
+                                                    e.target.value,
+                                                );
+                                            }}
+                                            className="w-24"
+                                            type="number"
+                                        />
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                    <p className="text-muted-foreground">
+                        Sum of 3 assessment types should equal to 100
+                    </p>
+                    {Object.entries(errors).map(([key, message]) => (
+                        <InputError key={key} message={message} />
+                    ))}
+                    <div>
+                        <Button disabled={processing}>Save</Button>
+                    </div>
+                </CardContent>
+            </Card>
+        </form>
     );
 }
 

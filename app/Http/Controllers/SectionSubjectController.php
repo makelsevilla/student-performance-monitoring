@@ -71,7 +71,37 @@ class SectionSubjectController extends Controller
      */
     public function update(Request $request, SectionSubject $sectionSubject)
     {
-        //
+        // updating the weight of the assessments
+        $rules = [
+            "exam_weight" => "required|integer|between:0,100",
+            "task_weight" => "required|integer|between:0,100",
+            "quiz_weight" => "required|integer|between:0,100",
+        ];
+
+        $messages = [
+            "sum" => "The sum of the assessment weights must be 100."
+        ];
+
+        $validator = \Validator::make($request->all(), $rules, $messages);
+        $validator->after(function ($validator) use ($request) {
+            $sum = $request->input('exam_weight') + $request->input('task_weight') + $request->input('quiz_weight');
+            if ($sum !== 100) {
+                $validator->errors()->add('sum', 'The sum of the assessment weights must be 100.');
+            }
+        });
+
+        // Check if the validation fails
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+
+        // Continue with your logic if validation passes
+        $sectionSubject->update($validator->validated());
+
+        return back();
     }
 
     /**
