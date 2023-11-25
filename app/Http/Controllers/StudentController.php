@@ -50,17 +50,11 @@ class StudentController extends Controller
         $subjects = $student->section->sectionSubjects()->get();
 
         $subjectGrades = $subjects->map(function ($sectionSubject) use ($student) {
-            $per_quarter_grades = [];
-
             $periods = [1 => "first_quarter", 2 => "second_quarter", 3 => "third_quarter", 4 => "fourth_quarter"];
             foreach ($periods as $period => $period_txt) {
                 $per_quarter_grades[$period_txt] = null;
 
-                $assessment_types_weighted_scores = [
-                    "quiz" => null,
-                    "task" => null,
-                    "exam" => null,
-                ];
+                $initialGrade = 0;
 
                 $types = ["quiz", "task", "exam"];
                 foreach ($types as $type) {
@@ -68,9 +62,15 @@ class StudentController extends Controller
                     $typed_assessments_count = $typed_assessments->count();
                     $type_weight = $sectionSubject->typeWeight($type);
 
+                    // get the sum of assessment total
+                    $assessments_total = $typed_assessments->sum((function ($assessment) {
+                        return $assessment->total;
+                    }));
+
                     $student_scores = $typed_assessments->map(function ($assessment) use ($student) {
                         return $assessment->studentAssessmentScores()->where("student_id", $student->id)->first()?->score;
                     });
+
 
                     $score_sum = 0;
                     foreach ($student_scores as $score) {
@@ -79,31 +79,17 @@ class StudentController extends Controller
                         }
                     }
 
-                    if ($typed_assessments_count > 0 && $type_weight && $score_sum) {
-                        $weighted_score = $typed_assessments_count * ($type_weight / 100) * $score_sum;
-                        $assessment_types_weighted_scores[$type] = $weighted_score;
-                    } else {
-                        $assessment_types_weighted_scores[$type] = null;
-                    }
-
-
-                }
-
-                $weighted_scores_have_null = false;
-                foreach ($assessment_types_weighted_scores as $type => $weighted_score) {
-                    if ($weighted_score == null) {
-                        $weighted_scores_have_null = true;
-                        break;
-                    }
-                }
-
-                if (!$weighted_scores_have_null) {
-                    $initialGrade = 0;
-                    foreach ($assessment_types_weighted_scores as $type => $weighted_score) {
+                    if ($typed_assessments_count > 0 && $type_weight && count($student_scores) > 0 && $assessments_total) {
+                        $weighted_score = $score_sum / $assessments_total * $type_weight;
                         $initialGrade += $weighted_score;
                     }
-                    $per_quarter_grades[$period_txt] = $this->transmuteInitGrade($initialGrade);
+
+
                 }
+
+                $per_quarter_grades[$period_txt] = $this->transmuteInitGrade($initialGrade);
+
+
             }
 
             return array_merge($sectionSubject->toArray(), $per_quarter_grades);

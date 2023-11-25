@@ -114,7 +114,7 @@ function AssessmentTypeWeightsForm({
                                 { label: "Exam", name: "exam_weight" },
                                 { label: "Task", name: "task_weight" },
                             ].map(({ label, name }) => (
-                                <TableRow>
+                                <TableRow key={label}>
                                     <TableCell className="font-bold">
                                         {label}
                                     </TableCell>
