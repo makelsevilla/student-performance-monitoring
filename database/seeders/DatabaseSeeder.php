@@ -20,6 +20,12 @@ class DatabaseSeeder extends Seeder
             'role' => 'teacher'
         ]);
 
+        \App\Models\User::factory()->create([
+            'name' => 'Mary Jane',
+            'username' => 'maryjane',
+            'role' => 'admin'
+        ]);
+
         $this->call([
             SectionSeeder::class,
             SectionSubjectSeeder::class,

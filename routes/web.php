@@ -29,8 +29,8 @@ Route::middleware('auth')->group(function () {
 });
 
 // Teachers route
-Route::middleware(['auth', 'role:teacher'])->group(function () {
-    require __DIR__ . '/teacher.php';
-});
+require __DIR__ . '/teacher.php';
+
+require __DIR__ . '/admin.php';
 
 require __DIR__ . '/auth.php';
