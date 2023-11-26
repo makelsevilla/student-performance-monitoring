@@ -49,76 +49,7 @@ class StudentController extends Controller
         // get the section subjects of the student
         $subjects = $student->section->sectionSubjects()->get();
 
-        $subjectGrades = $subjects->map(function ($sectionSubject) use ($student) {
-            $per_quarter_grades = [];
-            $periods = [1 => "first_quarter", 2 => "second_quarter", 3 => "third_quarter", 4 => "fourth_quarter"];
-            foreach ($periods as $period => $period_txt) {
-                $initialGrade = null;
-
-                $types = ["quiz", "task", "exam"];
-                foreach ($types as $type) {
-                    $typed_assessments = $sectionSubject->byPeriodAndTypeAssessments($period, $type)->get();
-                    $typed_assessments_count = $typed_assessments->count();
-                    $type_weight = $sectionSubject->typeWeight($type);
-
-                    // get the sum of assessment total
-                    $assessments_total = $typed_assessments->sum((function ($assessment) {
-                        return $assessment->total;
-                    }));
-
-                    $student_scores = $typed_assessments->map(function ($assessment) use ($student) {
-                        return $assessment->studentAssessmentScores()->where("student_id", $student->id)->first()?->score;
-                    });
-
-
-                    $score_sum = 0;
-                    foreach ($student_scores as $score) {
-                        if ($score) {
-                            $score_sum += $score;
-                        }
-                    }
-
-                    if ($typed_assessments_count > 0 && $type_weight && count($student_scores) > 0 && $assessments_total && $score_sum > 0) {
-                        $weighted_score = $score_sum / $assessments_total * $type_weight;
-                        $initialGrade += $weighted_score;
-                    }
-
-
-                }
-
-                if ($initialGrade === null)
-                    $per_quarter_grades[$period_txt] = null;
-                else
-                    $per_quarter_grades[$period_txt] = $this->transmuteInitGrade($initialGrade);
-            }
-
-            // compute the final grade
-            $finalGradeAvg = null;
-            foreach ($per_quarter_grades as $quarter => $grade) {
-                if ($grade === null) {
-                    $finalGradeAvg = null;
-                    break;
-                }
-
-                if ($finalGradeAvg === null) {
-                    $finalGradeAvg = $grade / 4;
-                } else {
-                    $finalGradeAvg += $grade / 4;
-                }
-            }
-
-            $remark = "";
-            if ($finalGradeAvg !== null) {
-                if ($finalGradeAvg >= 75) {
-                    $remark = "Passed";
-                } else {
-                    $remark = "Failed";
-                }
-            }
-
-            return array_merge($sectionSubject->toArray(), $per_quarter_grades, ["final_grade" => $finalGradeAvg, "remark" => $remark]);
-        });
-
+        $subjectGrades = $student->getPerSubjectGrades();
 
         $subjectsBreakdown = $subjects->map(function ($sectionSubject) use ($student) {
             $periods = ["1" => "first_grading_period", "2" => "second_grading_period", "3" => "third_grading_period", "4" => "fourth_grading_period"];
@@ -181,7 +112,7 @@ class StudentController extends Controller
         return back();
     }
 
-    private function transmuteInitGrade($initialGrade)
+    public static function transmuteInitGrade($initialGrade)
     {
         if ($initialGrade == 100) {
             return 100;

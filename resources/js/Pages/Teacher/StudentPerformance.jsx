@@ -149,7 +149,7 @@ export default function StudentPerformance({
 function SubjectBreakdownTab({ subject }) {
     return (
         <div className="flex justify-center">
-            <Tabs>
+            <Tabs defaultValue="first_grading_period">
                 <TabsList>
                     {Object.keys(subject.per_grading_period_assessments).map(
                         (period) => (

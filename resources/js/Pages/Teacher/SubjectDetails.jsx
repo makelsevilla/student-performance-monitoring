@@ -263,8 +263,10 @@ function CreateAssessmentModal({ subjectId, children }) {
 }
 
 function AssessmentsTab({ periodicAssessments }) {
+    const [currentTab, setCurrentTab] = useState("first_grading_period");
+
     return (
-        <Tabs defaultValue="first_grading_period">
+        <Tabs value={currentTab} onValueChange={setCurrentTab}>
             <TabsList>
                 {Object.keys(periodicAssessments).map((period) => (
                     <TabsTrigger
@@ -326,14 +328,15 @@ function AssessmentsTab({ periodicAssessments }) {
                                                                         size="sm"
                                                                         asChild
                                                                     >
-                                                                        <Link
+                                                                        <a
                                                                             href={route(
                                                                                 "teacher.assessments.show",
                                                                                 assessment.id,
                                                                             )}
+                                                                            target="_blank"
                                                                         >
                                                                             <Icons.clipboardEdit className="h-4 w-4" />
-                                                                        </Link>
+                                                                        </a>
                                                                     </Button>
 
                                                                     <AlertDialog>

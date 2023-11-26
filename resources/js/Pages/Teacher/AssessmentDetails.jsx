@@ -52,6 +52,18 @@ export default function AssessmentDetails({ assessment }) {
                                 {assessment.grading_period}
                             </span>
                         </p>
+                        <p>
+                            <span className="font-bold">Subject:</span>{" "}
+                            <span className="capitalize">
+                                {assessment.section_subject.name}
+                            </span>
+                        </p>
+                        <p>
+                            <span className="font-bold">Section:</span>{" "}
+                            <span className="capitalize">
+                                {assessment.section_subject.section.name}
+                            </span>
+                        </p>
                     </CardContent>
                 </Card>
 

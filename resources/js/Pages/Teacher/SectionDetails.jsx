@@ -98,9 +98,8 @@ export default function SectionDetails({ section }) {
                                         Student name
                                     </TableHead>
                                     <TableHead className="w-full text-center">
-                                        GWA
+                                        GA
                                     </TableHead>
-                                    <TableHead>Remark</TableHead>
                                     <TableHead>Actions</TableHead>
                                 </TableRow>
                             </TableHeader>
@@ -122,9 +121,7 @@ export default function SectionDetails({ section }) {
                                             </TableCell>
                                             <TableCell className="text-center">
                                                 <p>8</p>
-                                                <p>(Very Good)</p>
                                             </TableCell>
-                                            <TableCell>Passed</TableCell>
                                             <TableCell>
                                                 <StudentActions
                                                     student={student}
