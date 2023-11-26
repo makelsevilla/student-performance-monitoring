@@ -37,18 +37,6 @@ export default function AdminLayout({ children }) {
                     <ul className="mt-auto space-y-2 font-medium">
                         <li>
                             <Button
-                                variant="ghost"
-                                className="w-full justify-start text-lg"
-                                asChild
-                            >
-                                <Link href={route("profile.edit")}>
-                                    <Icons.settings className="h-5 w-5" />
-                                    <span className="ps-3">Settings</span>
-                                </Link>
-                            </Button>
-                        </li>
-                        <li>
-                            <Button
                                 className="w-full justify-start text-lg hover:bg-destructive hover:text-destructive-foreground"
                                 asChild
                             >
