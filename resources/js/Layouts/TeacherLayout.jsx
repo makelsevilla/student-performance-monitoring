@@ -10,7 +10,7 @@ export default function TeacherLayout({ children }) {
             </Button>
 
             <div className="h-full rounded-lg border sm:grid sm:grid-cols-[256px_1fr]">
-                <aside className=" hidden rounded-l-lg bg-slate-500 p-4 text-white shadow sm:flex sm:flex-col">
+                <aside className=" hidden rounded-l-lg bg-green-400 p-4 text-white shadow sm:flex sm:flex-col">
                     <Link href="/" className="mb-4 space-y-4 text-center">
                         <Icons.dashboard className="mx-auto h-12 w-12" />
                         <h1 className="text-xl font-bold">
