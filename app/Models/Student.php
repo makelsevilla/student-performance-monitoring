@@ -119,7 +119,7 @@ class Student extends Model
             return $grade !== null;
         });
 
-        if ($grades->count() > 0) {
+        if (count($filtered_grades) > 0) {
             return round($filtered_grades->sum() / $grades->count());
         } else {
             return null;
