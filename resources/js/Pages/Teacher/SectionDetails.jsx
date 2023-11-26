@@ -43,6 +43,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/Components/ui/select.jsx";
+import { Badge } from "@/Components/ui/badge.jsx";
+import GeneralAverageBadge from "@/Components/GeneralAverageBadge.jsx";
 
 export default function SectionDetails({ section, students }) {
     const [sortStudentsBy, setSortStudentsBy] = useState("name");
@@ -155,7 +157,11 @@ export default function SectionDetails({ section, students }) {
                                                 </div>
                                             </TableCell>
                                             <TableCell className="text-center">
-                                                <p>{student.general_average}</p>
+                                                <GeneralAverageBadge
+                                                    generalAverage={
+                                                        student.general_average
+                                                    }
+                                                />
                                             </TableCell>
                                             <TableCell>
                                                 <StudentActions
