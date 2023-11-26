@@ -48,7 +48,6 @@ import GeneralAverageBadge from "@/Components/GeneralAverageBadge.jsx";
 
 export default function SectionDetails({ section, students }) {
     const [sortStudentsBy, setSortStudentsBy] = useState("name");
-    console.log(students);
 
     return (
         <TeacherLayout>
@@ -157,11 +156,14 @@ export default function SectionDetails({ section, students }) {
                                                 </div>
                                             </TableCell>
                                             <TableCell className="text-center">
-                                                <GeneralAverageBadge
-                                                    generalAverage={
-                                                        student.general_average
-                                                    }
-                                                />
+                                                {student.general_average !==
+                                                    null && (
+                                                    <GeneralAverageBadge
+                                                        generalAverage={
+                                                            student.general_average
+                                                        }
+                                                    />
+                                                )}
                                             </TableCell>
                                             <TableCell>
                                                 <StudentActions

@@ -51,15 +51,27 @@ export default function TeacherLayout({ children }) {
                             <Button
                                 variant="ghost"
                                 className="w-full justify-start text-lg"
+                                asChild
                             >
-                                <Icons.settings className="h-5 w-5" />
-                                <span className="ps-3">Settings</span>
+                                <Link href={route("profile.edit")}>
+                                    <Icons.settings className="h-5 w-5" />
+                                    <span className="ps-3">Settings</span>
+                                </Link>
                             </Button>
                         </li>
                         <li>
-                            <Button className="w-full justify-start text-lg hover:bg-destructive hover:text-destructive-foreground">
-                                <Icons.logout className="h-5 w-5" />
-                                <span className="ps-3">Log out</span>
+                            <Button
+                                className="w-full justify-start text-lg hover:bg-destructive hover:text-destructive-foreground"
+                                asChild
+                            >
+                                <Link
+                                    href={route("logout")}
+                                    method="post"
+                                    as="button"
+                                >
+                                    <Icons.logout className="h-5 w-5" />
+                                    <span className="ps-3">Log out</span>
+                                </Link>
                             </Button>
                         </li>
                     </ul>

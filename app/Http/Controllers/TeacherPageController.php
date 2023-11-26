@@ -10,7 +10,11 @@ class TeacherPageController extends Controller
 {
     public function dashboard()
     {
-        return Inertia::render('Teacher/Dashboard');
+        $user = auth()->user();
+        $sectionsCount = $user->sections()->count();
+        $subjectsCount = $user->sectionSubjects()->count();
+
+        return Inertia::render('Teacher/Dashboard', ["counts" => ["sections" => $sectionsCount, "subjects" => $subjectsCount]]);
     }
 
     public function mySections()
