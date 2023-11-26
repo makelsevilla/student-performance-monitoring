@@ -41,8 +41,15 @@ class SectionController extends Controller
     {
         $this->authorize("view", $section);
 
+        $students = $section->students()->get()->map(function ($student) {
+            $general_average = $student->generalAverage();
+
+            return array_merge($student->toArray(), ["general_average" => $general_average]);
+        });
+        
         return Inertia::render("Teacher/SectionDetails", [
-            "section" => $section->load(["students", "sectionSubjects" => ["teacher"]])
+            "section" => $section->load(["sectionSubjects" => ["teacher"]]),
+            "students" => $students
         ]);
     }
 

@@ -107,4 +107,22 @@ class Student extends Model
 
         return $subjectGrades;
     }
+
+    public function generalAverage()
+    {
+        $subjectGrades = $this->getPerSubjectGrades();
+        $grades = $subjectGrades->map(function ($subjectGrade) {
+            return $subjectGrade["final_grade"];
+        });
+
+        $filtered_grades = $grades->filter(function ($grade) {
+            return $grade !== null;
+        });
+
+        if ($grades->count() > 0) {
+            return round($filtered_grades->sum() / $grades->count());
+        } else {
+            return null;
+        }
+    }
 }

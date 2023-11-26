@@ -36,7 +36,9 @@ import {
 } from "@/Components/ui/dropdown-menu.jsx";
 import { Icons } from "@/Components/Icons.jsx";
 
-export default function SectionDetails({ section }) {
+export default function SectionDetails({ section, students }) {
+    console.log(students);
+
     return (
         <TeacherLayout>
             <PageHeader
@@ -105,7 +107,7 @@ export default function SectionDetails({ section }) {
                             </TableHeader>
 
                             <TableBody>
-                                {section.students
+                                {students
                                     .sort((a, b) =>
                                         a.name.localeCompare(b.name),
                                     )
@@ -120,7 +122,7 @@ export default function SectionDetails({ section }) {
                                                 </div>
                                             </TableCell>
                                             <TableCell className="text-center">
-                                                <p>8</p>
+                                                <p>{student.general_average}</p>
                                             </TableCell>
                                             <TableCell>
                                                 <StudentActions
