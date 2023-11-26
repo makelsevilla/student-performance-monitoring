@@ -78,7 +78,7 @@ class StudentController extends Controller
                         }
                     }
 
-                    if ($typed_assessments_count > 0 && $type_weight && count($student_scores) > 0 && $assessments_total) {
+                    if ($typed_assessments_count > 0 && $type_weight && count($student_scores) > 0 && $assessments_total && $score_sum > 0) {
                         $weighted_score = $score_sum / $assessments_total * $type_weight;
                         $initialGrade += $weighted_score;
                     }
@@ -107,8 +107,18 @@ class StudentController extends Controller
                 }
             }
 
-            return array_merge($sectionSubject->toArray(), $per_quarter_grades, ["final_grade" => $finalGradeAvg]);
+            $remark = "";
+            if ($finalGradeAvg !== null) {
+                if ($finalGradeAvg >= 75) {
+                    $remark = "Passed";
+                } else {
+                    $remark = "Failed";
+                }
+            }
+
+            return array_merge($sectionSubject->toArray(), $per_quarter_grades, ["final_grade" => $finalGradeAvg, "remark" => $remark]);
         });
+
 
         $subjectsBreakdown = $subjects->map(function ($sectionSubject) use ($student) {
             $periods = ["1" => "first_grading_period", "2" => "second_grading_period", "3" => "third_grading_period", "4" => "fourth_grading_period"];

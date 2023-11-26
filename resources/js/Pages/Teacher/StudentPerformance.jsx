@@ -90,7 +90,7 @@ export default function StudentPerformance({
                                     <TableCell>
                                         {subjectGrade.final_grade}
                                     </TableCell>
-                                    <TableCell>Passed</TableCell>
+                                    <TableCell>{subjectGrade.remark}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
