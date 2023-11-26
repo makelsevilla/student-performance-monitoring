@@ -35,8 +35,17 @@ import {
     DropdownMenuTrigger,
 } from "@/Components/ui/dropdown-menu.jsx";
 import { Icons } from "@/Components/Icons.jsx";
+import { Label } from "@/Components/ui/label.jsx";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/Components/ui/select.jsx";
 
 export default function SectionDetails({ section, students }) {
+    const [sortStudentsBy, setSortStudentsBy] = useState("name");
     console.log(students);
 
     return (
@@ -92,10 +101,26 @@ export default function SectionDetails({ section, students }) {
                             </Button>
                         </CreateStudentModal>
                     </div>
+                    <div className="mt-4 flex items-center gap-1.5">
+                        <Label>Sort:</Label>
+                        <Select
+                            value={sortStudentsBy}
+                            onValueChange={setSortStudentsBy}
+                        >
+                            <SelectTrigger className="w-fit">
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="name">Name</SelectItem>
+                                <SelectItem value="rank">Rank</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
                     <div className="rounded-lg border">
                         <Table>
                             <TableHeader>
                                 <TableRow className="bg-secondary">
+                                    <TableHead>#</TableHead>
                                     <TableHead className="whitespace-nowrap">
                                         Student name
                                     </TableHead>
@@ -108,14 +133,22 @@ export default function SectionDetails({ section, students }) {
 
                             <TableBody>
                                 {students
-                                    .sort((a, b) =>
-                                        a.name.localeCompare(b.name),
-                                    )
-                                    .map((student) => (
+                                    .sort((a, b) => {
+                                        if (sortStudentsBy === "name") {
+                                            return a.name.localeCompare(b.name);
+                                        } else {
+                                            return (
+                                                b.general_average -
+                                                a.general_average
+                                            );
+                                        }
+                                    })
+                                    .map((student, idx) => (
                                         <TableRow
                                             key={student.id}
                                             className="group"
                                         >
+                                            <TableCell>{idx + 1}</TableCell>
                                             <TableCell>
                                                 <div className="text-sm font-semibold capitalize text-gray-700">
                                                     {student.name}
