@@ -267,6 +267,7 @@ function CreateAssessmentModal({ subjectId, children }) {
 
 function AssessmentsTab({ periodicAssessments }) {
     const [currentTab, setCurrentTab] = useState("first_grading_period");
+    const [sortStudentBy, setSortStudentBy] = useState("name");
 
     return (
         <Tabs value={currentTab} onValueChange={setCurrentTab}>
@@ -297,8 +298,35 @@ function AssessmentsTab({ periodicAssessments }) {
                                     return (
                                         <Card key={index}>
                                             <CardHeader>
-                                                <CardTitle>
+                                                <CardTitle className="flex">
                                                     Student Scores
+                                                    <div className="ml-auto flex items-center">
+                                                        <Label>Sort by:</Label>
+                                                        <Select
+                                                            value={
+                                                                sortStudentBy
+                                                            }
+                                                            onValueChange={(
+                                                                val,
+                                                            ) =>
+                                                                setSortStudentBy(
+                                                                    val,
+                                                                )
+                                                            }
+                                                        >
+                                                            <SelectTrigger>
+                                                                <SelectValue />
+                                                            </SelectTrigger>
+                                                            <SelectContent>
+                                                                <SelectItem value="name">
+                                                                    Name
+                                                                </SelectItem>
+                                                                <SelectItem value="grade">
+                                                                    Grade
+                                                                </SelectItem>
+                                                            </SelectContent>
+                                                        </Select>
+                                                    </div>
                                                 </CardTitle>
                                             </CardHeader>
                                             <CardContent className="overflow-auto">
@@ -380,39 +408,62 @@ function AssessmentsTab({ periodicAssessments }) {
                                                         </TableRow>
                                                     </TableHeader>
                                                     <TableBody>
-                                                        {studentScores?.body.map(
-                                                            (body, idx) => (
-                                                                <TableRow
-                                                                    key={idx}
-                                                                >
-                                                                    {body.map(
-                                                                        (
-                                                                            item,
-                                                                            idx,
-                                                                        ) => (
-                                                                            <TableCell
-                                                                                className="border text-center"
-                                                                                key={
-                                                                                    idx
-                                                                                }
-                                                                            >
-                                                                                {idx ===
-                                                                                body.length -
-                                                                                    1 ? (
-                                                                                    <GeneralAverageBadge
-                                                                                        generalAverage={
-                                                                                            item
-                                                                                        }
-                                                                                    />
-                                                                                ) : (
-                                                                                    item
-                                                                                )}
-                                                                            </TableCell>
-                                                                        ),
-                                                                    )}
-                                                                </TableRow>
-                                                            ),
-                                                        )}
+                                                        {studentScores?.body
+                                                            .sort((a, b) => {
+                                                                if (
+                                                                    sortStudentBy ===
+                                                                    "name"
+                                                                ) {
+                                                                    return a[0].localeCompare(
+                                                                        b[0],
+                                                                    );
+                                                                }
+                                                                return (
+                                                                    b[
+                                                                        b.length -
+                                                                            1
+                                                                    ] -
+                                                                    a[
+                                                                        a.length -
+                                                                            1
+                                                                    ]
+                                                                );
+                                                            })
+                                                            .map(
+                                                                (body, idx) => (
+                                                                    <TableRow
+                                                                        key={
+                                                                            idx
+                                                                        }
+                                                                    >
+                                                                        {body.map(
+                                                                            (
+                                                                                item,
+                                                                                idx,
+                                                                            ) => (
+                                                                                <TableCell
+                                                                                    className="border text-center"
+                                                                                    key={
+                                                                                        idx
+                                                                                    }
+                                                                                >
+                                                                                    {idx ===
+                                                                                    body.length -
+                                                                                        1 ? (
+                                                                                        <GeneralAverageBadge
+                                                                                            generalAverage={
+                                                                                                item
+                                                                                            }
+                                                                                        />
+                                                                                    ) : (
+                                                                                        item
+                                                                                    )}
+                                                                                </TableCell>
+                                                                            ),
+                                                                        )}
+                                                                    </TableRow>
+                                                                ),
+                                                            )}
                                                     </TableBody>
                                                 </Table>
                                             </CardContent>
