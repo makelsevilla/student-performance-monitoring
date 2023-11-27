@@ -53,6 +53,8 @@ import InputError from "@/Components/InputError.jsx";
 import { useState } from "react";
 
 export default function SubjectDetails({ subject, periodicAssessments }) {
+    console.log(periodicAssessments);
+
     return (
         <TeacherLayout>
             <PageHeader
@@ -287,116 +289,245 @@ function AssessmentsTab({ periodicAssessments }) {
                         className="space-y-8"
                     >
                         {Object.entries(assessments).map(
-                            ([type, assessmentsDetail], index) => (
-                                <Card key={index}>
-                                    <CardHeader>
-                                        <CardTitle className="capitalize">
-                                            {type}
-                                        </CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <Table className="w-fit">
-                                            <TableHeader>
-                                                <TableRow>
-                                                    <TableHead>Name</TableHead>
-                                                    <TableHead>Total</TableHead>
-                                                    <TableHead>
-                                                        Action
-                                                    </TableHead>
-                                                </TableRow>
-                                            </TableHeader>
-                                            <TableBody>
-                                                {assessmentsDetail.map(
-                                                    (assessment) => (
-                                                        <TableRow
-                                                            key={assessment.id}
-                                                        >
-                                                            <TableCell>
-                                                                {
-                                                                    assessment.name
-                                                                }
-                                                            </TableCell>
-                                                            <TableCell>
-                                                                {
-                                                                    assessment.total
-                                                                }
-                                                            </TableCell>
-                                                            <TableCell>
-                                                                <div className="flex items-center">
-                                                                    <Button
-                                                                        variant="ghost"
-                                                                        size="sm"
-                                                                        asChild
-                                                                    >
-                                                                        <a
-                                                                            href={route(
-                                                                                "teacher.assessments.show",
-                                                                                assessment.id,
-                                                                            )}
-                                                                            target="_blank"
-                                                                        >
-                                                                            <Icons.clipboardEdit className="h-4 w-4" />
-                                                                        </a>
-                                                                    </Button>
+                            ([type, assessmentsDetail], index) => {
+                                if (type === "studentScores") {
+                                    const studentScores = assessmentsDetail;
 
-                                                                    <AlertDialog>
-                                                                        <AlertDialogTrigger
+                                    return (
+                                        <Card key={index}>
+                                            <CardHeader>
+                                                <CardTitle>
+                                                    Student Scores
+                                                </CardTitle>
+                                            </CardHeader>
+                                            <CardContent className="overflow-auto">
+                                                <Table className="border">
+                                                    <TableHeader>
+                                                        <TableRow>
+                                                            {studentScores?.head.map(
+                                                                (head, idx) => (
+                                                                    <TableHead
+                                                                        className="border bg-secondary text-center text-xl font-bold uppercase"
+                                                                        key={
+                                                                            idx
+                                                                        }
+                                                                        colSpan={
+                                                                            head.subHeader
+                                                                                ? head
+                                                                                      .subHeader
+                                                                                      .length ||
+                                                                                  1
+                                                                                : 1
+                                                                        }
+                                                                    >
+                                                                        {
+                                                                            head.header
+                                                                        }
+                                                                    </TableHead>
+                                                                ),
+                                                            )}
+                                                        </TableRow>
+
+                                                        {/*Sub Headers*/}
+                                                        <TableRow>
+                                                            {studentScores?.head.map(
+                                                                (head, idx) => {
+                                                                    {
+                                                                        if (
+                                                                            head.subHeader &&
+                                                                            head
+                                                                                .subHeader
+                                                                                .length >
+                                                                                0
+                                                                        ) {
+                                                                            return head.subHeader.map(
+                                                                                (
+                                                                                    subHead,
+                                                                                    idx,
+                                                                                ) => (
+                                                                                    <TableHead
+                                                                                        className="border text-center"
+                                                                                        key={
+                                                                                            idx
+                                                                                        }
+                                                                                    >
+                                                                                        <div>
+                                                                                            {
+                                                                                                subHead.assessmentName
+                                                                                            }
+                                                                                        </div>
+                                                                                        <div className="mt-1">
+                                                                                            {
+                                                                                                subHead.assessmentTotal
+                                                                                            }
+                                                                                        </div>
+                                                                                    </TableHead>
+                                                                                ),
+                                                                            );
+                                                                        }
+
+                                                                        return (
+                                                                            <TableHead
+                                                                                key={
+                                                                                    idx
+                                                                                }
+                                                                            ></TableHead>
+                                                                        );
+                                                                    }
+                                                                },
+                                                            )}
+                                                        </TableRow>
+                                                    </TableHeader>
+                                                    <TableBody>
+                                                        {studentScores?.body.map(
+                                                            (body, idx) => (
+                                                                <TableRow
+                                                                    key={idx}
+                                                                >
+                                                                    {body.map(
+                                                                        (
+                                                                            item,
+                                                                            idx,
+                                                                        ) => (
+                                                                            <TableCell
+                                                                                className="border text-center"
+                                                                                key={
+                                                                                    idx
+                                                                                }
+                                                                            >
+                                                                                {
+                                                                                    item
+                                                                                }
+                                                                            </TableCell>
+                                                                        ),
+                                                                    )}
+                                                                </TableRow>
+                                                            ),
+                                                        )}
+                                                    </TableBody>
+                                                </Table>
+                                            </CardContent>
+                                        </Card>
+                                    );
+                                }
+
+                                return (
+                                    <Card key={index}>
+                                        <CardHeader>
+                                            <CardTitle className="capitalize">
+                                                {type}
+                                            </CardTitle>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <Table className="w-fit">
+                                                <TableHeader>
+                                                    <TableRow>
+                                                        <TableHead>
+                                                            Name
+                                                        </TableHead>
+                                                        <TableHead>
+                                                            Total
+                                                        </TableHead>
+                                                        <TableHead>
+                                                            Action
+                                                        </TableHead>
+                                                    </TableRow>
+                                                </TableHeader>
+                                                <TableBody>
+                                                    {assessmentsDetail.map(
+                                                        (assessment) => (
+                                                            <TableRow
+                                                                key={
+                                                                    assessment.id
+                                                                }
+                                                            >
+                                                                <TableCell>
+                                                                    {
+                                                                        assessment.name
+                                                                    }
+                                                                </TableCell>
+                                                                <TableCell>
+                                                                    {
+                                                                        assessment.total
+                                                                    }
+                                                                </TableCell>
+                                                                <TableCell>
+                                                                    <div className="flex items-center">
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
                                                                             asChild
                                                                         >
-                                                                            <Button
-                                                                                variant="ghost"
-                                                                                size="sm"
-                                                                                className="hover:bg-destructive hover:text-destructive-foreground"
+                                                                            <a
+                                                                                href={route(
+                                                                                    "teacher.assessments.show",
+                                                                                    assessment.id,
+                                                                                )}
+                                                                                target="_blank"
                                                                             >
-                                                                                <Icons.trash className="h-4 w-4" />
-                                                                            </Button>
-                                                                        </AlertDialogTrigger>
-                                                                        <AlertDialogContent>
-                                                                            <AlertDialogHeader>
-                                                                                <AlertDialogHeader>
-                                                                                    Are
-                                                                                    you
-                                                                                    sure
-                                                                                    you
-                                                                                    want
-                                                                                    to
-                                                                                    delete
-                                                                                    this
-                                                                                    assessment?
-                                                                                </AlertDialogHeader>
-                                                                            </AlertDialogHeader>
-                                                                            <AlertDialogFooter>
-                                                                                <AlertDialogCancel>
-                                                                                    Cancel
-                                                                                </AlertDialogCancel>
-                                                                                <AlertDialogAction
-                                                                                    className="bg-destructive"
-                                                                                    asChild
+                                                                                <Icons.clipboardEdit className="h-4 w-4" />
+                                                                            </a>
+                                                                        </Button>
+
+                                                                        <AlertDialog>
+                                                                            <AlertDialogTrigger
+                                                                                asChild
+                                                                            >
+                                                                                <Button
+                                                                                    variant="ghost"
+                                                                                    size="sm"
+                                                                                    className="hover:bg-destructive hover:text-destructive-foreground"
                                                                                 >
-                                                                                    <Link
-                                                                                        href={route(
-                                                                                            "teacher.assessments.destroy",
-                                                                                            assessment.id,
-                                                                                        )}
-                                                                                        method="delete"
-                                                                                        as="button"
+                                                                                    <Icons.trash className="h-4 w-4" />
+                                                                                </Button>
+                                                                            </AlertDialogTrigger>
+                                                                            <AlertDialogContent>
+                                                                                <AlertDialogHeader>
+                                                                                    <AlertDialogHeader>
+                                                                                        Are
+                                                                                        you
+                                                                                        sure
+                                                                                        you
+                                                                                        want
+                                                                                        to
+                                                                                        delete
+                                                                                        this
+                                                                                        assessment?
+                                                                                    </AlertDialogHeader>
+                                                                                </AlertDialogHeader>
+                                                                                <AlertDialogFooter>
+                                                                                    <AlertDialogCancel>
+                                                                                        Cancel
+                                                                                    </AlertDialogCancel>
+                                                                                    <AlertDialogAction
+                                                                                        className="bg-destructive"
+                                                                                        asChild
                                                                                     >
-                                                                                        Delete
-                                                                                    </Link>
-                                                                                </AlertDialogAction>
-                                                                            </AlertDialogFooter>
-                                                                        </AlertDialogContent>
-                                                                    </AlertDialog>
-                                                                </div>
-                                                            </TableCell>
-                                                        </TableRow>
-                                                    ),
-                                                )}
-                                            </TableBody>
-                                        </Table>
-                                    </CardContent>
-                                </Card>
-                            ),
+                                                                                        <Link
+                                                                                            href={route(
+                                                                                                "teacher.assessments.destroy",
+                                                                                                assessment.id,
+                                                                                            )}
+                                                                                            method="delete"
+                                                                                            as="button"
+                                                                                        >
+                                                                                            Delete
+                                                                                        </Link>
+                                                                                    </AlertDialogAction>
+                                                                                </AlertDialogFooter>
+                                                                            </AlertDialogContent>
+                                                                        </AlertDialog>
+                                                                    </div>
+                                                                </TableCell>
+                                                            </TableRow>
+                                                        ),
+                                                    )}
+                                                </TableBody>
+                                            </Table>
+                                        </CardContent>
+                                    </Card>
+                                );
+                            },
                         )}
                     </TabsContent>
                 ),

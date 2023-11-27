@@ -44,11 +44,47 @@ class SectionSubjectController extends Controller
         $per_grading_period_assessments = [];
 
         $periods = ["1" => "first_grading_period", "2" => "second_grading_period", "3" => "third_grading_period", "4" => "fourth_grading_period"];
-        foreach ($periods as $key => $value) {
+        foreach ($periods as $period => $value) {
             $per_grading_period_assessments[$value] = [
-                "quizzes" => $sectionSubject->byPeriodAndTypeAssessments($key, "quiz")->select("id", "name", "total")->get(),
-                "tasks" => $sectionSubject->byPeriodAndTypeAssessments($key, "task")->select("id", "name", "total")->get(),
-                "exams" => $sectionSubject->byPeriodAndTypeAssessments($key, "exam")->select("id", "name", "total")->get()
+                "quizzes" => $sectionSubject->byPeriodAndTypeAssessments($period, "quiz")->select("id", "name", "total")->get(),
+                "tasks" => $sectionSubject->byPeriodAndTypeAssessments($period, "task")->select("id", "name", "total")->get(),
+                "exams" => $sectionSubject->byPeriodAndTypeAssessments($period, "exam")->select("id", "name", "total")->get(),
+                "studentScores" => function () use ($sectionSubject, $period) {
+                    $assessmentTypes = ["quiz", "task", "exam"];
+                    $head = [["header" => "Student Name", "subHeader" => null]];
+                    $body = [];
+                    $students = $sectionSubject->section->students()->orderBy("name")->get();
+
+                    foreach ($students as $student) {
+                        $studentScores = [];
+                        $studentScores[] = $student->name;
+                        foreach ($assessmentTypes as $assessmentType) {
+                            $assessments = $sectionSubject->byPeriodAndTypeAssessments($period, $assessmentType)->select("id", "name", "total")->orderBy("created_at")->get();
+                            foreach ($assessments as $assessment) {
+                                $studentScore = $student->studentAssessmentScores()->where("assessment_id", $assessment->id)->first()?->score;
+                                if ($studentScore) {
+                                    $studentScores[] = $studentScore;
+                                } else {
+                                    $studentScores[] = 0;
+                                }
+                            }
+                        }
+                        $body[] = $studentScores;
+                    }
+
+                    foreach ($assessmentTypes as $assessmentType) {
+                        $assessments = $sectionSubject->byPeriodAndTypeAssessments($period, $assessmentType)->select("id", "name", "total")->orderBy("created_at")->get();
+                        $subHeader = $assessments->map(function ($assessment) {
+                            return ["assessmentName" => $assessment->name, "assessmentTotal" => $assessment->total];
+                        });
+
+                        $head[] = ["header" => $assessmentType, "subHeader" => $subHeader];
+                    }
+
+//                    dd($body);
+
+                    return ["head" => $head, "body" => $body];
+                }
             ];
         }
 

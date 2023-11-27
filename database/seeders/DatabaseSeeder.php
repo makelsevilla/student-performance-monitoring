@@ -26,12 +26,12 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin'
         ]);
 
-        $this->call([
+        /*$this->call([
             SectionSeeder::class,
             SectionSubjectSeeder::class,
             StudentSeeder::class,
             AssessmentSeeder::class,
             StudentAssessmentScoreSeeder::class,
-        ]);
+        ]);*/
     }
 }
