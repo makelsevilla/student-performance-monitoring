@@ -69,6 +69,9 @@ class SectionSubjectController extends Controller
                                 }
                             }
                         }
+                        $periodMapping = ["1" => "first_quarter", "2" => "second_quarter", "3" => "third_quarter", "4" => "fourth_quarter"];
+                        $studentGrades = $student->getSubjectGrades($sectionSubject->id);
+                        $studentScores[] = $studentGrades[$periodMapping[$period]];
                         $body[] = $studentScores;
                     }
 
@@ -82,7 +85,7 @@ class SectionSubjectController extends Controller
                     }
 
 //                    dd($body);
-
+                    $head[] = ["header" => "Grade", "subHeader" => null];
                     return ["head" => $head, "body" => $body];
                 }
             ];

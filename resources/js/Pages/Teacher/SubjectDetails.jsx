@@ -458,15 +458,14 @@ function AssessmentsTab({ periodicAssessments }) {
                                                                             size="sm"
                                                                             asChild
                                                                         >
-                                                                            <a
+                                                                            <Link
                                                                                 href={route(
                                                                                     "teacher.assessments.show",
                                                                                     assessment.id,
                                                                                 )}
-                                                                                target="_blank"
                                                                             >
                                                                                 <Icons.clipboardEdit className="h-4 w-4" />
-                                                                            </a>
+                                                                            </Link>
                                                                         </Button>
 
                                                                         <AlertDialog>
