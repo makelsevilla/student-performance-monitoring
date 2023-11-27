@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->string("name");
             $table->integer("total");
             $table->integer("grading_period");
+            $table->dateTime("created_at")->useCurrent();
         });
     }
 
