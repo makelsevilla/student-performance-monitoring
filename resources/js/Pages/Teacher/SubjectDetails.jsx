@@ -449,15 +449,15 @@ function AssessmentsTab({ periodicAssessments }) {
                                                                                 >
                                                                                     {idx ===
                                                                                     body.length -
-                                                                                        1 ? (
-                                                                                        <GeneralAverageBadge
-                                                                                            generalAverage={
-                                                                                                item
-                                                                                            }
-                                                                                        />
-                                                                                    ) : (
-                                                                                        item
-                                                                                    )}
+                                                                                        1
+                                                                                        ? item && (
+                                                                                              <GeneralAverageBadge
+                                                                                                  generalAverage={
+                                                                                                      item
+                                                                                                  }
+                                                                                              />
+                                                                                          )
+                                                                                        : item}
                                                                                 </TableCell>
                                                                             ),
                                                                         )}
