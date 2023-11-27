@@ -26,6 +26,7 @@ import {
 } from "@/Components/ui/tabs.jsx";
 import { replaceUnderscoresWithSpaces } from "@/lib/utils.js";
 import { Card } from "@/Components/ui/card.jsx";
+import { useRemember } from "@inertiajs/react";
 
 export default function StudentPerformance({
     student,
@@ -33,8 +34,7 @@ export default function StudentPerformance({
     subjectsBreakdown,
     subjectGrades,
 }) {
-    console.log(subjectGrades);
-    const [selectedSubject, setSelectedSubject] = useState(null);
+    const [selectedSubject, setSelectedSubject] = useRemember(subjects[0]?.id);
 
     return (
         <TeacherLayout>
@@ -102,6 +102,7 @@ export default function StudentPerformance({
                     <h1 className="text-xl font-bold">Subject Breakdown</h1>
                     <div className="mt-4">
                         <Select
+                            value={selectedSubject}
                             onValueChange={(value) => setSelectedSubject(value)}
                         >
                             <SelectTrigger>

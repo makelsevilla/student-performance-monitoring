@@ -32,7 +32,7 @@ import {
     AlertDialogHeader,
     AlertDialogTrigger,
 } from "@/Components/ui/alert-dialog.jsx";
-import { Link, useForm } from "@inertiajs/react";
+import { Link, useForm, useRemember } from "@inertiajs/react";
 import {
     Dialog,
     DialogContent,
@@ -266,7 +266,7 @@ function CreateAssessmentModal({ subjectId, children }) {
 }
 
 function AssessmentsTab({ periodicAssessments }) {
-    const [currentTab, setCurrentTab] = useState("first_grading_period");
+    const [currentTab, setCurrentTab] = useRemember("first_grading_period");
     const [sortStudentBy, setSortStudentBy] = useState("name");
 
     return (
