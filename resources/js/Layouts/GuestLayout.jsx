@@ -8,11 +8,11 @@ export default function Guest({ children }) {
             <div>
                 <Link href="/">
                     {/*<ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />*/}
-                    <Icons.dashboard className="h-20 w-20 text-gray-500" />
+                    <Icons.dashboard className="h-20 w-20 text-green-500" />
                 </Link>
             </div>
 
-            <div className="mt-6 w-full overflow-hidden bg-white px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg">
+            <div className="mt-6 w-full overflow-hidden bg-green-400 px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg">
                 {children}
             </div>
         </div>
