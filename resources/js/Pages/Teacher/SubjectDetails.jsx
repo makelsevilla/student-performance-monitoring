@@ -51,6 +51,7 @@ import {
 import { Input } from "@/Components/ui/input.jsx";
 import InputError from "@/Components/InputError.jsx";
 import { useState } from "react";
+import GeneralAverageBadge from "@/Components/GeneralAverageBadge.jsx";
 
 export default function SubjectDetails({ subject, periodicAssessments }) {
     console.log(periodicAssessments);
@@ -395,9 +396,17 @@ function AssessmentsTab({ periodicAssessments }) {
                                                                                     idx
                                                                                 }
                                                                             >
-                                                                                {
+                                                                                {idx ===
+                                                                                body.length -
+                                                                                    1 ? (
+                                                                                    <GeneralAverageBadge
+                                                                                        generalAverage={
+                                                                                            item
+                                                                                        }
+                                                                                    />
+                                                                                ) : (
                                                                                     item
-                                                                                }
+                                                                                )}
                                                                             </TableCell>
                                                                         ),
                                                                     )}
