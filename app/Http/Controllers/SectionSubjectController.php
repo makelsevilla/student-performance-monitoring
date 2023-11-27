@@ -60,6 +60,7 @@ class SectionSubjectController extends Controller
                         $studentScores[] = $student->name;
                         foreach ($assessmentTypes as $assessmentType) {
                             $assessments = $sectionSubject->byPeriodAndTypeAssessments($period, $assessmentType)->select("id", "name", "total")->orderBy("created_at")->get();
+
                             foreach ($assessments as $assessment) {
                                 $studentScore = $student->studentAssessmentScores()->where("assessment_id", $assessment->id)->first()?->score;
                                 if ($studentScore) {
@@ -81,7 +82,10 @@ class SectionSubjectController extends Controller
                             return ["assessmentName" => $assessment->name, "assessmentTotal" => $assessment->total];
                         });
 
-                        $head[] = ["header" => $assessmentType, "subHeader" => $subHeader];
+                        if ($assessments->count() > 0) {
+                            $head[] = ["header" => $assessmentType, "subHeader" => $subHeader];
+                        }
+
                     }
 
 //                    dd($body);
