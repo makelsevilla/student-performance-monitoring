@@ -1,11 +1,5 @@
 import TeacherLayout from "@/Layouts/TeacherLayout.jsx";
 import PageHeader from "@/Components/PageHeader.jsx";
-import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-} from "@/Components/ui/accordion.jsx";
 import CreateSectionSubjectModal from "@/Components/CreateSectionSubjectModal.jsx";
 import { Button } from "@/Components/ui/button.jsx";
 import { Link, router } from "@inertiajs/react";
@@ -43,7 +37,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/Components/ui/select.jsx";
-import { Badge } from "@/Components/ui/badge.jsx";
 import GeneralAverageBadge from "@/Components/GeneralAverageBadge.jsx";
 
 export default function SectionDetails({ section, students }) {
@@ -59,7 +52,7 @@ export default function SectionDetails({ section, students }) {
                     <div className="flex items-center">
                         <div className="text-xl">Subjects</div>
                         <CreateSectionSubjectModal sectionId={section.id}>
-                            <Button size="sm" className="ml-auto text-xs">
+                            <Button className="ml-auto">
                                 Add subject
                             </Button>
                         </CreateSectionSubjectModal>
@@ -97,7 +90,7 @@ export default function SectionDetails({ section, students }) {
                     <div className="mt-4 flex">
                         <div className="text-xl">Students</div>
                         <CreateStudentModal sectionId={section.id}>
-                            <Button size="sm" className="ml-auto text-xs">
+                            <Button className="ml-auto">
                                 Add student
                             </Button>
                         </CreateStudentModal>
@@ -126,7 +119,7 @@ export default function SectionDetails({ section, students }) {
                                         Student name
                                     </TableHead>
                                     <TableHead className="w-full text-center">
-                                        GA
+                                        General Average
                                     </TableHead>
                                     <TableHead>Actions</TableHead>
                                 </TableRow>
@@ -190,7 +183,6 @@ function SectionSubjectActions({ sectionSubject: { id } }) {
                     onClick={() => setShowDeleteAlert(true)}
                     variant="ghost"
                     className="hover:bg-destructive hover:text-destructive-foreground"
-                    size="sm"
                 >
                     Remove
                 </Button>

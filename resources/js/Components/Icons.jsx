@@ -1,4 +1,5 @@
 import {
+    ChevronLeft,
     ClipboardEdit,
     Gauge,
     Library,
@@ -6,10 +7,11 @@ import {
     MoreVertical,
     Settings,
     Trash2,
-    Users,
+    Users
 } from "lucide-react";
 
 export const Icons = {
+    chevronLeft: ChevronLeft,
     clipboardEdit: ClipboardEdit,
     trash: Trash2,
     dashboard: Gauge,

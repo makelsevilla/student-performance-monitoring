@@ -27,6 +27,9 @@ import {
 import { replaceUnderscoresWithSpaces } from "@/lib/utils.js";
 import { Card } from "@/Components/ui/card.jsx";
 import { useRemember } from "@inertiajs/react";
+import { Button } from "@/Components/ui/button.jsx";
+import { Icons } from "@/Components/Icons.jsx";
+import BackButton from "@/Components/BackButton.jsx";
 
 export default function StudentPerformance({
     student,
@@ -38,6 +41,7 @@ export default function StudentPerformance({
 
     return (
         <TeacherLayout>
+            <BackButton />
             <PageHeader heading="Student Performance" />
             <div className="mt-4">
                 {/*Display the student name*/}

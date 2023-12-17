@@ -71,7 +71,7 @@ export default function SubjectDetails({ subject, periodicAssessments }) {
             <div className="mt-4">
                 <PageHeader heading="Assessments">
                     <CreateAssessmentModal subjectId={subject.id}>
-                        <Button className="ml-auto text-xs" size="sm">
+                        <Button className="ml-auto" size="sm">
                             Add Assessment
                         </Button>
                     </CreateAssessmentModal>

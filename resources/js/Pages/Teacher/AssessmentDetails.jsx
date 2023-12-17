@@ -18,11 +18,16 @@ import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 import { Input } from "@/Components/ui/input.jsx";
 import { Button } from "@/Components/ui/button.jsx";
+import { Icons } from "@/Components/Icons.jsx";
+import { Link } from "@inertiajs/react";
 
 export default function AssessmentDetails({ assessment }) {
     return (
         <TeacherLayout>
             <div className="space-y-8">
+
+                <Button variant="outline" asChild><Link href={route("teacher.subjects.show", {id: assessment.section_subject.id})} ><Icons.chevronLeft className="h-4 w-4 mr-2" /> Subject Details</Link></Button>
+
                 <Card>
                     <CardHeader>
                         <CardTitle>Assessment Details</CardTitle>

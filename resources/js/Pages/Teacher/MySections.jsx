@@ -47,7 +47,7 @@ export default function MySections({ sections }) {
                 text="Lists of section class that you are handling."
             >
                 <CreateSectionModal>
-                    <Button size="sm" className="ml-auto text-xs">
+                    <Button size="sm" className="ml-auto">
                         Add Section
                     </Button>
                 </CreateSectionModal>
