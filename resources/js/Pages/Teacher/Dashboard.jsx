@@ -19,11 +19,10 @@ export default function Dashboard({ auth, counts }) {
                     </CardHeader>
                 </Card>
             </div>
-            <div className="flex justify-center">
+            <div className="flex w-[80%] mt-10 mx-auto">
                 <img
                     alt="central school"
-                    src="/central-school.png"
-                    width="500"
+                    src="/central-school.jpg"
                 />
             </div>
         </TeacherLayout>
