@@ -6,24 +6,26 @@ import CentralSchoolLogo from "@/Components/CentralSchoolLogo.jsx";
 export default function Dashboard({ auth, counts }) {
     return (
         <TeacherLayout>
-            <PageHeader heading={`Welcome, ${auth.user.name}!`} />
-            <div className="mt-4 flex gap-8">
-                <Card className="w-fit">
-                    <CardHeader>
-                        <CardTitle>Sections: {counts.sections}</CardTitle>
-                    </CardHeader>
-                </Card>
-                <Card className="w-fit">
-                    <CardHeader>
-                        <CardTitle>Subjects: {counts.subjects}</CardTitle>
-                    </CardHeader>
-                </Card>
-            </div>
-            <div className="flex w-[80%] mt-10 mx-auto">
-                <img
-                    alt="central school"
-                    src="/central-school.jpg"
-                />
+            <div className="bg-[url('/central-school.jpg')] h-full">
+                <PageHeader heading={`Welcome, ${auth.user.name}!`} />
+                <div className="mt-4 flex gap-8">
+                    <Card className="w-fit">
+                        <CardHeader>
+                            <CardTitle>Sections: {counts.sections}</CardTitle>
+                        </CardHeader>
+                    </Card>
+                    <Card className="w-fit">
+                        <CardHeader>
+                            <CardTitle>Subjects: {counts.subjects}</CardTitle>
+                        </CardHeader>
+                    </Card>
+                </div>
+                {/* <div className="flex w-[80%] mt-10 mx-auto">
+                    <img
+                        alt="central school"
+                        src="/central-school.jpg"
+                    />
+                </div> */}
             </div>
         </TeacherLayout>
     );
